@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<!-- DynamicCourts.html version15 -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Court Session Manager</title>
+    <link rel="stylesheet" href="DynamicCourts.css">
+    <link rel="stylesheet" href="MidSessionSelectedPlayers.css">
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            position: relative;
+            background-color: #fefefe;
+            margin: 10%;
+            padding: 5px;
+            width: 80%;
+            animation-name: animatetop;
+            animation-duration: 0.4s;
+        }
+        @keyframes animatetop {
+            from {top: -300px; opacity: 0}
+            to {top: 0; opacity: 1}
+        }
+        .close {
+            position: absolute;
+            right: 10px;
+            top: 0;
+            color: #aaa;
+            font-size: 28px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <div id="session-number">Session 1</div>
+        <div id="timer">00:00</div>
+        <div>
+            Session Duration: <input type="number" id="duration-input"> minutes
+        </div>
+
+        <!-- Players Button -->
+        <div style="position: relative;">
+            <button class="header-btn" id="players-icon">&#128100; Players</button>
+        </div>
+
+        <!-- Courts Button -->
+        <div style="position: relative;">
+            <button class="header-btn" id="courts-icon">⚾ Courts</button>
+        </div>
+
+        <!-- Settings Dropdown -->
+        <div style="position: relative;">
+            <button class="header-btn" id="setting-icon">&#9881; Settings</button>
+            <div id="setting-buttons" class="settings-dropdown">
+                <button class="header-btn" id="pause-btn">Pause</button>
+                <button class="header-btn" id="FreshStart-btn">FreshStart</button>
+                <button class="header-btn" id="reset-btn">Reset</button>
+                <button class="header-btn" id="next-btn">Next</button>
+                <button class="header-btn" id="prev-btn">Prev</button>
+                <button class="header-btn" id="reshuffle-btn">Reshuffle</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="content"></div>
+    <div id="rested-players">
+        <h3>Rested Players</h3>
+        <div class="players-container"></div>
+    </div>
+
+    <!-- Players Modal -->
+    <div id="playerModal" class="modal player-selection-modal">
+        <div class="modal-content teal-bg">
+            <span class="close player-close">&times;</span>
+            <div class="center-content">
+                <div class="search-container">
+                    <input type="text" id="searchBar" placeholder="Search players...">
+                </div>
+                <div id="playerList" class="responsive-grid"></div>
+            </div>
+            <div id="alphabetScrollBar"></div>
+        </div>
+    </div>
+
+    <!-- Courts Modal -->
+    <div id="courtModal" class="modal">
+        <div class="modal-content" style="height: 80vh; width: 90vw;">
+            <span class="close court-close">&times;</span>
+            <iframe id="courtConfigFrame" src="MidSessionPlayDayConfig.html" 
+                    style="width: 100%; height: 100%; border: none;"></iframe>
+        </div>
+    </div>
+
+    <div id="loading-indicator" style="display: none;">Loading... Please wait.</div>
+
+    <script src="DynamicCourts.js"></script>
+    <script src="MidSessionSelectedPlayers.js"></script>
+<script>
+        // Safely get elements
+        const playerModal = document.getElementById('playerModal');
+        const courtModal = document.getElementById('courtModal');
+        const playerClose = document.querySelector('#playerModal .player-close');
+        const courtClose = document.querySelector('#courtModal .court-close');
+
+        // Players Modal Handling
+        document.getElementById('players-icon').addEventListener('click', () => {
+            playerModal.style.display = "block";
+            setTimeout(() => playerModal.style.opacity = 1, 10);
+        });
+
+        if(playerClose) {
+            playerClose.onclick = () => {
+                playerModal.style.display = "none";
+                console.log('[PLAYERS] Modal closed via X button');
+                updateRestedPlayersOnModalClose();
+            };
+        }
+
+        // Courts Modal Handling
+        document.getElementById('courts-icon').addEventListener('click', () => {
+            courtModal.style.display = "flex";
+            //document.getElementById('courtConfigFrame').contentWindow.location.reload();
+        });
+
+        if(courtClose) {
+           courtClose.onclick = () => {
+                courtModal.style.display = "none";
+                console.log('[COURTS] Modal closed via X button');
+
+                // Delay the check for 'PlayDayConfig:winreload'
+                setTimeout(() => {
+                   const config = JSON.parse(localStorage.getItem('PlayDayConfig'));
+                   if (config && config.winreload === 1) {
+                     config.winreload = 0;
+                     localStorage.setItem('PlayDayConfig', JSON.stringify(config));
+                     window.location.reload();
+                   }
+                }, 200); // 200ms delay
+            };
+        }
+
+        // Background Click Handling
+       window.onclick = function(event) {
+            if(event.target === playerModal) {
+                playerModal.style.display = "none";
+                console.log('[PLAYERS] Modal closed via background');
+                updateRestedPlayersOnModalClose();
+            }
+            if(event.target === courtModal) {
+                courtModal.style.display = "none";
+                console.log('[COURTS] Modal closed via background');
+                 // Delay the check for 'PlayDayConfig:winreload'
+                setTimeout(() => {
+                   const config = JSON.parse(localStorage.getItem('PlayDayConfig'));
+                   if (config && config.winreload === 1) {
+                     config.winreload = 0;
+                     localStorage.setItem('PlayDayConfig', JSON.stringify(config));
+                     window.location.reload();
+                   }
+                }, 200); // 200ms delay
+            }
+        };
+
+        // Reset PlayDayConfig:winreload to 0 after reload (ensure it only runs once)
+        if (localStorage.getItem('PlayDayConfig:winreload') === '1') {
+            localStorage.setItem('PlayDayConfig:winreload', '0');
+            console.log("PlayDayConfig:winreload reset to 0 after reload.");
+        }
+
+    </script>
+</body>
+</html>

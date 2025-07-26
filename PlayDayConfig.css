@@ -1,0 +1,170 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: teal;
+    color: white;
+}
+
+.header {
+    background-color: #008080; /* Darker teal */
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.header h1 {
+    color: white;
+    margin: 0;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* Adjust column widths */
+    grid-template-rows: auto auto;   /* Two rows */
+    gap: 15px;                      /* Gap between grid items */
+    min-height: calc(60vh - 36px);
+    padding: 15px;
+}
+
+/* Define grid areas */
+#session-management {
+    grid-column: 1;    /* First column */
+    grid-row: 1;       /* First row */
+}
+
+#court-management {
+    grid-column: 1;    /* First column */
+    grid-row: 2;       /* Second row */
+}
+
+#game-management {
+    grid-column: 2;    /* Spans two columns */
+    grid-row: 1 / span 2;  /* Spans two rows */
+}
+
+.column {
+    padding: 15px;
+    margin: 10px;
+    border-radius: 8px;
+    background-color: #e0f2f1; /* Lighter teal for the boxes */
+    color: #333;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Styles for displaying session allocations two per line */
+#session-allocations {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* Align items to the start */
+}
+
+.session-allocation {
+    width: 50%; /* Each allocation takes up half the width */
+    margin-bottom: 10px;
+    padding-right: 10px; /* Add some spacing between pairs */
+    box-sizing: border-box; /* Include padding in width */
+}
+
+.session-allocation label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.session-allocation select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Adjust the size of Court and Session Management, if needed */
+#session-management,
+#court-management {
+    max-width: 500px; /* Limit the width of the left containers */
+}
+
+.courts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center the courts */
+}
+
+.court {
+    width: 30%;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.court.selected {
+    background-color: #008080;
+    color: #333;
+}
+
+.bottom {
+    text-align: center;
+    padding: 20px;
+}
+
+#commit {
+    padding: 10px 20px;
+    background-color: #e0f2f1;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block; /* Make sure the button is visible */
+}
+
+#commit:hover {
+    background-color: #006666;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="file"] {
+    margin-bottom: 10px;
+}
+
+/* Tablet responsiveness (adjust as needed) */
+@media (max-width: 600px) {
+    .container {
+        grid-template-columns: 1fr; /* Single column layout */
+        grid-template-rows: auto auto auto; /* Three rows */
+    }
+
+    #session-management {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    #court-management {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    #game-management {
+        grid-column: 1;
+        grid-row: 3;
+    }
+}

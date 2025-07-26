@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Court Allocation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: teal;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .input-section, .output-section {
+            margin-bottom: 20px;
+        }
+        #fileInput {
+            display: block;
+            margin: 10px 0;
+        }
+        button {
+            background-color: #008CBA;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #007B9A;
+        }
+        #output {
+            white-space: pre-wrap;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Court Allocation</h1>
+        <div class="output-section">
+            <div id="output"></div>
+            <button class="CourtsButton"onclick="goToPage('FixedCourts.html')">Courts View</button>
+        </div>
+    </div>
+    <script src="NPlay.js"></script>
+</body>
+</html>

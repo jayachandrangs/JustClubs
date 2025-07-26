@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!-- MidSessionSelectedPlayers.html -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Players</title>
+    <link rel="stylesheet" href="MidSessionSelectedPlayers.css">
+</head>
+<body class="teal-bg">
+
+<!-- The Modal -->
+<div id="playerModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="center-content">
+            <div class="search-container">
+                <input type="text" id="searchBar" placeholder="Search players...">
+            </div>
+            <div id="playerList" class="responsive-grid"></div>
+        </div>
+        <div id="alphabetScrollBar"></div>
+        <div class="bottom-buttons">
+           <!-- <button class="button" onclick="confirmAllocation()">CONFIRM</button>-->
+        </div>
+    </div>
+
+</div>
+
+<script>
+console.log('[MODAL] Opener exists:', !!window.opener);
+console.log('[MODAL] Opener closed status:', window.opener?.closed);
+    // Modified notifyParent function
+    function notifyParent() {
+        console.log('[MODAL] Attempting to notify parent...');
+        try {
+            if (window.opener && !window.opener.closed) {
+                console.log('[MODAL] Parent window found, sending message');
+                window.opener.postMessage(
+                    { 
+                        type: 'updateRestedPlayers',
+                        timestamp: Date.now() 
+                    }, 
+                    window.location.origin // Strict origin check
+                );
+            } else {
+                console.warn('[MODAL] No parent window available');
+            }
+        } catch (error) {
+            console.error('[MODAL] Message sending failed:', error);
+        } finally {
+            window.close();
+        }
+    }
+
+    // Modified close handlers
+    span.onclick = function() {
+        console.log('[MODAL] X button clicked');
+        modal.style.display = "none";
+        setTimeout(notifyParent, 100); // Give DOM time to update
+    }
+
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            console.log('[MODAL] Background click detected');
+            modal.style.display = "none";
+            setTimeout(notifyParent, 100); // Give DOM time to update
+        }
+    }
+</script>
+
+
+<script src="MidSessionSelectedPlayers.js" defer></script>
+</body>
+</html>

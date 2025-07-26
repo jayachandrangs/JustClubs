@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Day Management</title>
+    <link rel="stylesheet" href="MidSessionPlayDayConfig.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Play Day Management</h1>
+    </div>
+
+    <div class="container">
+        <div class="column" id="session-management">
+            <h2>Session Management</h2>
+            <label for="nsession">No of Sessions:</label>
+            <select id="nsession" name="nsession">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select><br><br>
+
+            <label for="sduration">Session Duration:</label>
+            <select id="sduration" name="sduration">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+                <option value="33">33</option>
+                <option value="34">34</option>
+                <option value="35">35</option>
+                <option value="36">36</option>
+                <option value="37">37</option>
+                <option value="38">38</option>
+                <option value="39">39</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+                <option value="46">46</option>
+                <option value="47">47</option>
+                <option value="48">48</option>
+                <option value="49">49</option>
+                <option value="50">50</option>
+                <option value="51">51</option>
+                <option value="52">52</option>
+                <option value="53">53</option>
+                <option value="54">54</option>
+                <option value="55">55</option>
+                <option value="56">56</option>
+                <option value="57">57</option>
+                <option value="58">58</option>
+                <option value="59">59</option>
+                <option value="60">60</option>
+            </select>
+        </div>
+
+        <div class="column" id="court-management">
+            <h2>Court Management</h2>
+            <div class="courts">
+                <div class="court">Court1</div>
+                <div class="court">Court2</div>
+                <div class="court">Court3</div>
+                <div class="court">Court4</div>
+                <div class="court">Court5</div>
+                <div class="court">Court6</div>
+            </div>
+        </div>
+
+        <div class="column" id="game-management">
+            <h2>Game Management</h2>
+            <form id="session-allocations">
+                <div class="session-allocation">
+                    <label for="S1">Session-01 Allocation:</label>
+                    <select id="S1" name="S1">
+                        <option value="Basic1">Basic1</option>
+                        <option value="Basic2">Basic2</option>
+                        <option value="Basic3">Basic3</option>
+                        <option value="Basic4">Basic4</option>
+                        <option value="MixedDiv1">MixedDiv1</option>
+                        <option value="MixedDiv2">MixedDiv2</option>
+                        <option value="MixedDiv3">MixedDiv3</option>
+                        <option value="MixedDiv4">MixedDiv4</option>
+                    </select>
+                </div>
+
+                <div class="session-allocation">
+                    <label for="S2">Session-02 Allocation:</label>
+                    <select id="S2" name="S2">
+                        <option value="Basic1">Basic1</option>
+                        <option value="Basic2">Basic2</option>
+                        <option value="Basic3">Basic3</option>
+                        <option value="Basic4">Basic4</option>
+                        <option value="MixedDiv1">MixedDiv1</option>
+                        <option value="MixedDiv2">MixedDiv2</option>
+                        <option value="MixedDiv3">MixedDiv3</option>
+                        <option value="MixedDiv4">MixedDiv4</option>
+                    </select>
+                </div>
+
+                <div class="session-allocation">
+                    <label for="S3">Session-03 Allocation:</label>
+                    <select id="S3" name="S3">
+                        <option value="Basic1">Basic1</option>
+                        <option value="Basic2">Basic2</option>
+                        <option value="Basic3">Basic3</option>
+                        <option value="Basic4">Basic4</option>
+                        <option value="MixedDiv1">MixedDiv1</option>
+                        <option value="MixedDiv2">MixedDiv2</option>
+                        <option value="MixedDiv3">MixedDiv3</option>
+                        <option value="MixedDiv4">MixedDiv4</option>
+                    </select>
+                </div>
+
+                <div class="session-allocation">
+                    <label for="S4">Session-04 Allocation:</label>
+                    <select id="S4" name="S4">
+                        <option value="Basic1">Basic1</option>
+                        <option value="Basic2">Basic2</option>
+                        <option value="Basic3">Basic3</option>
+                        <option value="Basic4">Basic4</option>
+                        <option value="MixedDiv1">MixedDiv1</option>
+                        <option value="MixedDiv2">MixedDiv2</option>
+                        <option value="MixedDiv3">MixedDiv3</option>
+                        <option value="MixedDiv4">MixedDiv4</option>
+                    </select>
+                </div>
+
+                <div class="session-allocation">
+                    <label for="S5">Session-05 Allocation:</label>
+                    <select id="S5" name="S5">
+                        <option value="Basic1">Basic1</option>
+                        <option value="Basic2">Basic2</option>
+                        <option value="Basic3">Basic3</option>
+                        <option value="Basic4">Basic4</option>
+                        <option value="MixedDiv1">MixedDiv1</option>
+                        <option value="MixedDiv2">MixedDiv2</option>
+                        <option value="MixedDiv3">MixedDiv3</option>
+                        <option value="MixedDiv4">MixedDiv4</option>
+                    </select>
+                </div>
+
+                 <div class="session-allocation">
+                    <label for="S6">Session-06 Allocation:</label>
+                    <select id="S6" name="S6">
+                        <option value="Basic1">Basic1</option>
+                        <option value="Basic2">Basic2</option>
+                        <option value="Basic3">Basic3</option>
+                        <option value="Basic4">Basic4</option>
+                        <option value="MixedDiv1">MixedDiv1</option>
+                        <option value="MixedDiv2">MixedDiv2</option>
+                        <option value="MixedDiv3">MixedDiv3</option>
+                        <option value="MixedDiv4">MixedDiv4</option>
+                    </select>
+                </div>
+
+                 <div class="session-allocation">
+                    <label for="S7">Session-07 Allocation:</label>
+                    <select id="S7" name="S7">
+                        <option value="Basic1">Basic1</option>
+                        <option value="Basic2">Basic2</option>
+                        <option value="Basic3">Basic3</option>
+                        <option value="Basic4">Basic4</option>
+                        <option value="MixedDiv1">MixedDiv1</option>
+                        <option value="MixedDiv2">MixedDiv2</option>
+                        <option value="MixedDiv3">MixedDiv3</option>
+                        <option value="MixedDiv4">MixedDiv4</option>
+                    </select>
+                </div>
+
+                 <div class="session-allocation">
+                    <label for="S8">Session-08 Allocation:</label>
+                    <select id="S8" name="S8">
+                        <option value="Basic1">Basic1</option>
+                        <option value="Basic2">Basic2</option>
+                        <option value="Basic3">Basic3</option>
+                        <option value="Basic4">Basic4</option>
+                        <option value="MixedDiv1">MixedDiv1</option>
+                        <option value="MixedDiv2">MixedDiv2</option>
+                        <option value="MixedDiv3">MixedDiv3</option>
+                        <option value="MixedDiv4">MixedDiv4</option>
+                    </select>
+                </div>
+
+                 <div class="session-allocation">
+                    <label for="S9">Session-09 Allocation:</label>
+                    <select id="S9" name="S9">
+                        <option value="Basic1">Basic1</option>
+                        <option value="Basic2">Basic2</option>
+                        <option value="Basic3">Basic3</option>
+                        <option value="Basic4">Basic4</option>
+                        <option value="MixedDiv1">MixedDiv1</option>
+                        <option value="MixedDiv2">MixedDiv2</option>
+                        <option value="MixedDiv3">MixedDiv3</option>
+                        <option value="MixedDiv4">MixedDiv4</option>
+                    </select>
+                </div>
+
+                <div class="session-allocation">
+                    <label for="S10">Session-10 Allocation:</label>
+                    <select id="S10" name="S10">
+                        <option value="Basic1">Basic1</option>
+                        <option value="Basic2">Basic2</option>
+                        <option value="Basic3">Basic3</option>
+                        <option value="Basic4">Basic4</option>
+                        <option value="MixedDiv1">MixedDiv1</option>
+                        <option value="MixedDiv2">MixedDiv2</option>
+                        <option value="MixedDiv3">MixedDiv3</option>
+                        <option value="MixedDiv4">MixedDiv4</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="MidSessionPlayDayConfig.js"></script>
+</body>
+</html>

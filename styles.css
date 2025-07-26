@@ -1,0 +1,209 @@
+/* Reset basic styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Teal background color for all pages */
+.teal-bg {
+  background-color: #008080; /* Matches the teal logo color */
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Center content styling */
+.center-content {
+  text-align: center;
+}
+
+.logo {
+  width: 150px;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.welcome-btn, .button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: white;
+  background-color: transparent;
+  border: 2px solid white;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.welcome-btn:hover, .button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.5rem;
+  }
+}
+
+
+.player-btn {
+  display: block;
+  margin: 10px;
+  padding: 10px;
+  color: white;
+  background-color: transparent;
+  border: 2px solid white;
+  cursor: pointer;
+}
+
+.player-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Basic styles */
+.teal-bg {
+  background-color: teal;
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.button {
+  margin: 10px;
+  padding: 10px 20px;
+  color: teal;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.player-grid {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Responsive columns for player grid */
+@media (min-width: 1024px) { /* Desktop */
+  .player-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) { /* Tablet */
+  .player-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 767px) { /* Mobile */
+  .player-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Styles for each player item */
+.player-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.number-bubble {
+  display: inline-block;
+  background-color: yellow;
+  color: black;
+  border-radius: 50%;
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.player-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.responsive-grid {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.responsive-grid > div {
+  background-color: white;
+  color: #008080;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  position: relative;
+}
+
+.player-number {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: yellow;
+  color: #000;
+  border-radius: 50%;
+  padding: 5px;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.bottom-buttons {
+  margin-top: 20px;
+}
+
+.button {
+  margin: 5px;
+  padding: 10px 20px;
+  color: #008080;
+  background-color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #e0e0e0;
+}
+
+@media (min-width: 1200px) {
+  .responsive-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .responsive-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .responsive-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

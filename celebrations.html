@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celebration Page</title>
+    <style>
+        body {
+            background-color: #FEFEFE; /* Background color from the image */
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: sans-serif;
+            color: white;
+            overflow: hidden; /* Hide scrollbars */
+        }
+
+        #logo {
+            width: 300px; /* Adjust as needed */
+            margin-bottom: 20px;
+        }
+
+        #message {
+            font-size: 2em;
+            text-align: center;
+        }
+    </style>
+    <!-- confetti.js -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+    <img id="logo" src="https://pplx-res.cloudinary.com/image/upload/v1740018004/user_uploads/gbwwmDREnhKLkGj/DALL-E-2025-02-20-00.09.22-Logo-design-for-Rivi-an-AI-based-tool-for-managing-badminton-court-allocation-for-clubs.-The-logo-should-be-modern-and-sleek-combining-elements-of.jpg" alt="Rivi Logo">
+    <div id="message">Welldone !! Have a nice day !!</div>
+
+    <script>
+        // Function to trigger confetti
+        function party() {
+            confetti({
+                particleCount: 200,
+                spread: 200,
+                origin: { y: 0.6 }
+            });
+        }
+
+        // Trigger confetti in a loop
+        setInterval(party, 3000); // Call party function every 3 seconds (adjust as needed)
+
+    </script>
+</body>
+</html>

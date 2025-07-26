@@ -1,0 +1,117 @@
+/* Reset basic styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Teal background color and overall layout for the modal */
+.player-selection-modal .modal-content.teal-bg {
+    background-color: #008080;
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    font-family: sans-serif; /* Add a default font */
+}
+
+/* Center content styling */
+.player-selection-modal .modal-content .center-content {
+    text-align: center;
+    width: 100%;
+}
+
+/* Search container and input styling */
+.player-selection-modal .modal-content .search-container {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.player-selection-modal .modal-content #searchBar {
+    width: 80%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: black; /* Set text color to black */
+}
+
+/* Responsive grid for players */
+.player-selection-modal .modal-content .responsive-grid {
+    display: grid;
+    gap: 10px;
+    margin-top: 20px;
+    width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive columns */
+}
+
+/* Styles for each player item in the grid */
+.player-selection-modal .modal-content .responsive-grid > div {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: black; /* Use the light green color */
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    position: relative;
+    transition: background-color 0.3s; /* Add transition for hover effect */
+}
+
+.player-selection-modal .modal-content .responsive-grid > div:hover {
+    background-color: rgba(255, 255, 255, 0.3); /* Darken on hover */
+}
+
+/* Player number (yellow circle) styling */
+.player-selection-modal .modal-content .responsive-grid .player-number {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: yellow;
+    color: black;
+    border-radius: 50%;
+    padding: 5px;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* Alphabet scroll bar styling */
+.player-selection-modal .modal-content #alphabetScrollBar {
+    position: fixed;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    background-color: #008080;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.player-selection-modal .modal-content .alphabet-letter {
+    cursor: pointer;
+    padding: 5px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none; /* Remove underline */
+}
+
+.player-selection-modal .modal-content .alphabet-letter:hover {
+    background-color: rgba(0, 128, 128, 0.2);
+}
+
+.player-selection-modal .modal-content .alphabet-separator {
+    width: 100%; /* Make the separator span the entire width */
+    padding: 5px 10px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-weight: bold;
+    margin: 10px 0;
+    border-radius: 5px;
+    text-align: center;
+}

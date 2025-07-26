@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Players</title>
+  <link rel="stylesheet" href="SelectedPlayers.css">
+  <script src="SelectedPlayers.js" defer></script>
+</head>
+<body class="teal-bg">
+  <div class="center-content">
+  <div class="search-container">
+    <input type="text" id="searchBar" placeholder="Search players...">
+  </div>
+    <div id="playerButtons" class="responsive-grid"></div>
+  </div>
+  <div id="alphabetScrollBar"></div>
+  <div id="playerList" class="responsive-grid"></div>
+    <div class="bottom-buttons">
+      <button class="button" onclick="resetPlayers()">RESET</button>
+      <button class="button" onclick="confirmAllocation()">CONFIRM</button>
+    </div>
+</body>
+</html>
