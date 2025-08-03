@@ -30,6 +30,61 @@
   margin-bottom: 20px;
 }
 
+/* Profile Form Styling */
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 300px;
+  margin: 20px auto 0;
+}
+
+.profile-input {
+  padding: 12px 16px;
+  font-size: 1rem;
+  border: 2px solid white;
+  border-radius: 5px;
+  background: transparent;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.profile-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.profile-input:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.profile-input[readonly] {
+  opacity: 0.8;
+  cursor: default;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ---- Dropdown colour override ---- */
+select.profile-input {
+  color: #000;            /* black text when closed */
+  background-color: #fff; /* white field */
+}
+
+select.profile-input option {
+  color: #000;            /* black text inside dropdown */
+  background-color: #fff; /* white option background */
+}
+/* ---- end override ---- */
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .profile-form {
+    width: 90%;
+    max-width: 300px;
+  }
+}
+
 .welcome-btn, .button {
   padding: 10px 20px;
   font-size: 1rem;
@@ -51,7 +106,6 @@
   }
 }
 
-
 .player-btn {
   display: block;
   margin: 10px;
@@ -67,17 +121,6 @@
 }
 
 /* Basic styles */
-.teal-bg {
-  background-color: teal;
-  color: white;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
 .button {
   margin: 10px;
   padding: 10px 20px;
@@ -131,14 +174,6 @@
   padding: 5px 10px;
   margin-bottom: 5px;
   font-weight: bold;
-}
-
-.player-btn {
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  font-size: 14px;
 }
 
 .responsive-grid {
@@ -206,4 +241,102 @@
   .responsive-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+}
+
+/* MODAL STYLES - CORRECTED VERSION */
+
+/* Modal base styles */
+#playerModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Modal content wrapper */
+#playerModal .modal-content {
+    background: #008080;
+    width: 90vw;
+    max-width: 480px;
+    max-height: 80vh;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Center content container */
+#playerModal .center-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* Important: allows flex child to shrink */
+}
+
+/* Search container */
+#playerModal .search-container {
+    margin-bottom: 15px;
+    flex-shrink: 0;
+}
+
+#playerModal .search-container input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Player list - scrollable area */
+#playerList {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 0; /* Important: allows scrolling */
+}
+
+/* Close button */
+#playerModal .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+/* Grid layout for player items inside the modal */
+#playerList.responsive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
+    padding: 10px 0;
+}
+
+/* Player items in modal */
+#playerList .responsive-grid > div,
+#playerList > div {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #008080;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#playerList .responsive-grid > div:hover,
+#playerList > div:hover {
+    background-color: white;
 }

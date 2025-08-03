@@ -1,6 +1,6 @@
 let PlayDayConfig = JSON.parse(localStorage.getItem('PlayDayConfig')) || {
-    courts: ['Court1', 'Court2', 'Court3', 'Court4', 'Court5', 'Court6'],
-    ncourts: 6,
+    courts: ['Court1', 'Court2', 'Court3', 'Court4'],
+    ncourts: 4,
     pdb: '444rlist.csv',
     nsession: 5,
     sduration: 15,

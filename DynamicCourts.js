@@ -6,8 +6,8 @@ let isPaused = false;
 
 // Initialize PlayDayConfig from localStorage or use default values
 let PlayDayConfig = JSON.parse(localStorage.getItem('PlayDayConfig')) || {
-    courts: ['Court1', 'Court2', 'Court3', 'Court4', 'Court5', 'Court6'],
-    ncourts: 6,
+    courts: ['Court1', 'Court2', 'Court3', 'Court4'],
+    ncourts: 4,
     pdb: '123list.csv',
     nsession: '5',
     sduration: '15',
@@ -151,14 +151,99 @@ function setPlayDayConfig() {
     });
 }
 
+async function loginAndDownloadCSV() {
+  // Get ClubURL and Password from localStorage
+  const clubProfile = JSON.parse(localStorage.getItem('ClubProfile') || '{}');
+  const clubURL = clubProfile.ClubURL;
+  const password = clubProfile.Password;
+  
+  // Validate that we have the required data
+  if (!clubURL || !password) {
+    console.error('[ERROR] ClubURL or Password not found in localStorage');
+    alert('Club profile not found. Please login again.');
+    return;
+  }
+  
+  const loginUrl = `${clubURL}api/auth/login`;
+  const exportUrl = `${clubURL}api/volunteer/users/export`;
+  const email = 'volunteer@justclubs.ie';
+  const maxRetries = 3;
+  const retryDelay = 30000; // 30 seconds
+
+  try {
+    // LOGIN STEP
+    console.log('[INFO] Attempting login...');
+    const loginPayload = { email, password };
+    const loginResponse = await fetch(loginUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(loginPayload)
+    });
+
+    if (!loginResponse.ok) {
+      const errTxt = await loginResponse.text();
+      console.error(`[ERROR] Login failed (HTTP ${loginResponse.status}):`, errTxt);
+      
+      // If login fails, might need to re-authenticate
+      if (loginResponse.status === 401 || loginResponse.status === 403) {
+        alert('Authentication failed. Please check your credentials and try again.');
+      }
+      return;
+    }
+
+    const loginData = await loginResponse.json();
+    const token = loginData.token;
+    if (!token) {
+      console.error('[ERROR] Login response missing token:', loginData);
+      return;
+    }
+    console.log('[INFO] Login successful. Token received.');
+
+    // EXPORT STEP WITH RETRIES
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      console.log(`[INFO] Attempt ${attempt}: Downloading CSV export...`);
+      try {
+        const exportResponse = await fetch(exportUrl, {
+          method: 'GET',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (exportResponse.ok) {
+          const csvData = await exportResponse.text();
+          console.log('[SUCCESS] CSV data received!');
+          // Optionally: console.log(csvData); // Uncomment to print full CSV
+          return csvData;
+        } else {
+          const errTxt = await exportResponse.text();
+          throw new Error(`[HTTP ${exportResponse.status}] ${errTxt}`);
+        }
+      } catch (exportErr) {
+        console.error(`[ERROR] Export attempt ${attempt} failed:`, exportErr.message);
+        if (attempt < maxRetries) {
+          console.log(`[INFO] Retrying in ${retryDelay / 1000} seconds...`);
+          await new Promise(res => setTimeout(res, retryDelay));
+        } else {
+          console.error(`[FAIL] All ${maxRetries} export attempts failed.`);
+        }
+      }
+    }
+  } catch (err) {
+    console.error('[CRITICAL ERROR]', err);
+  }
+}
+
+
 async function covertdbtocsv() {
     try {
-        const response = await fetch("https://raw.githubusercontent.com/jayachandrangs/cbc/main/RiVi_playerlist.csv");
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const csvData = await response.text();
-        processCSVData(csvData);
-    } catch (error) {
-        console.error("CSV download failed:", error);
+         // Replace fetch with loginAndDownloadCSV call
+          const csvData = await loginAndDownloadCSV();
+        
+          if (!csvData) throw new Error('No CSV data received from loginAndDownloadCSV');
+        
+          processCSVData(csvData);
+        } catch (error) {
+          console.error("CSV download failed:", error);
+
 
         // Clean up PlayingToday
         if (localStorage.getItem('PlayingToday')) {
@@ -312,6 +397,7 @@ async function initialize() {
             // Show loading indicator
             document.getElementById('loading-indicator').style.display = 'block'; // Make sure you have an element with id="loading-indicator"
             try {
+                // await loginAndDownloadCSV();
                 await covertdbtocsv(); // Wait for CSV data to be processed
                 await showCourtsModal(); // Replace with your actual function call
                 await reloadPage();
@@ -413,8 +499,8 @@ async function initialize() {
         // Event listeners for main buttons
         document.getElementById('FreshStart-btn').addEventListener('click', freshstart);
         document.getElementById('next-btn').addEventListener('click', goToNextSession);
-        document.getElementById('prev-btn').addEventListener('click', goToPreviousSession);
-        document.getElementById('reset-btn').addEventListener('click', resetSession);
+        // document.getElementById('prev-btn').addEventListener('click', goToPreviousSession);
+        // document.getElementById('reset-btn').addEventListener('click', resetSession);
         document.getElementById('reshuffle-btn').addEventListener('click', function() {
             reshuffle(currentSession);
         });
@@ -1395,61 +1481,74 @@ function reshuffle(currentSession) {
 }
 
 function freshstart() {
-        // Clean up PlayDayConfig
-        if (localStorage.getItem('PlayDayConfig')) {
-            localStorage.removeItem('PlayDayConfig');
-        }
+    // Show confirmation dialog
+    const userConfirmed = confirm("Are you Sure you want to Start a New Session?");
+    
+    // If user clicks "Cancel" or "No", quit the function
+    if (!userConfirmed) {
+        return; // Exit the function without doing anything
+    }
+    
+    // Only proceed with cleanup if user clicked "Yes" or "OK"
+    
+    // Clean up PlayDayConfig
+    if (localStorage.getItem('PlayDayConfig')) {
+        localStorage.removeItem('PlayDayConfig');
+    }
 
-        // Clean up PlayingToday
-        if (localStorage.getItem('PlayingToday')) {
-            localStorage.removeItem('PlayingToday');
-        }
+    // Clean up PlayingToday
+    if (localStorage.getItem('PlayingToday')) {
+        localStorage.removeItem('PlayingToday');
+    }
 
-        // Clean up clubmembers
-        if (localStorage.getItem('clubmembers')) {
-            localStorage.removeItem('clubmembers');
-        }
-        // Clean up Session1
-        if (localStorage.getItem('Session_1')) {
-            localStorage.removeItem('Session_1');
-        }
-        // Clean up Session1_re
-        if (localStorage.getItem('Session_1_RestedPlayers')) {
-            localStorage.removeItem('Session_1_RestedPlayers');
-        }
-        // Clean up Session2
-        if (localStorage.getItem('Session_2')) {
-            localStorage.removeItem('Session_2');
-        }
-        // Clean up Session1_re
-        if (localStorage.getItem('Session_2_RestedPlayers')) {
-            localStorage.removeItem('Session_2_RestedPlayers');
-        }
-        // Clean up Session2
-        if (localStorage.getItem('Session_3')) {
-            localStorage.removeItem('Session_3');
-        }
-        // Clean up Session1_re
-        if (localStorage.getItem('Session_3_RestedPlayers')) {
-            localStorage.removeItem('Session_3_RestedPlayers');
-        }
-        // Clean up Session2
-        if (localStorage.getItem('Session_4')) {
-            localStorage.removeItem('Session_4');
-        }
-        // Clean up Session1_re
-        if (localStorage.getItem('Session_4_RestedPlayers')) {
-            localStorage.removeItem('Session_4_RestedPlayers');
-        }
-        // Clean up Session2
-        if (localStorage.getItem('Session_5')) {
-            localStorage.removeItem('Session_5');
-        }
-        // Clean up Session1_re
-        if (localStorage.getItem('Session_5_RestedPlayers')) {
-            localStorage.removeItem('Session_5_RestedPlayers');
-        }
-ocation.href = "Index.html";
+    // Clean up clubmembers
+    if (localStorage.getItem('clubmembers')) {
+        localStorage.removeItem('clubmembers');
+    }
+    // Clean up Session1
+    if (localStorage.getItem('Session_1')) {
+        localStorage.removeItem('Session_1');
+    }
+    // Clean up Session1_re
+    if (localStorage.getItem('Session_1_RestedPlayers')) {
+        localStorage.removeItem('Session_1_RestedPlayers');
+    }
+    // Clean up Session2
+    if (localStorage.getItem('Session_2')) {
+        localStorage.removeItem('Session_2');
+    }
+    // Clean up Session1_re
+    if (localStorage.getItem('Session_2_RestedPlayers')) {
+        localStorage.removeItem('Session_2_RestedPlayers');
+    }
+    // Clean up Session2
+    if (localStorage.getItem('Session_3')) {
+        localStorage.removeItem('Session_3');
+    }
+    // Clean up Session1_re
+    if (localStorage.getItem('Session_3_RestedPlayers')) {
+        localStorage.removeItem('Session_3_RestedPlayers');
+    }
+    // Clean up Session2
+    if (localStorage.getItem('Session_4')) {
+        localStorage.removeItem('Session_4');
+    }
+    // Clean up Session1_re
+    if (localStorage.getItem('Session_4_RestedPlayers')) {
+        localStorage.removeItem('Session_4_RestedPlayers');
+    }
+    // Clean up Session2
+    if (localStorage.getItem('Session_5')) {
+        localStorage.removeItem('Session_5');
+    }
+    // Clean up Session1_re
+    if (localStorage.getItem('Session_5_RestedPlayers')) {
+        localStorage.removeItem('Session_5_RestedPlayers');
+    }
+    
+    location.href = "Index.html";
 }
 
+
 initialize(); // calling initialize function
+

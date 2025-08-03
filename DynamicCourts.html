@@ -64,11 +64,11 @@
             <button class="header-btn" id="setting-icon">&#9881; Settings</button>
             <div id="setting-buttons" class="settings-dropdown">
                 <button class="header-btn" id="pause-btn">Pause</button>
-                <button class="header-btn" id="FreshStart-btn">FreshStart</button>
-                <button class="header-btn" id="reset-btn">Reset</button>
-                <button class="header-btn" id="next-btn">Next</button>
-                <button class="header-btn" id="prev-btn">Prev</button>
                 <button class="header-btn" id="reshuffle-btn">Reshuffle</button>
+                <!-- <button class="header-btn" id="reset-btn">Reset</button> -->
+                <button class="header-btn" id="next-btn">Next</button>
+                <!--  <button class="header-btn" id="prev-btn">Prev</button> -->
+                <button class="header-btn" id="FreshStart-btn">FreshStart</button>
             </div>
         </div>
     </div>
@@ -89,7 +89,6 @@
                 </div>
                 <div id="playerList" class="responsive-grid"></div>
             </div>
-            <div id="alphabetScrollBar"></div>
         </div>
     </div>
 
@@ -112,7 +111,24 @@
         const courtModal = document.getElementById('courtModal');
         const playerClose = document.querySelector('#playerModal .player-close');
         const courtClose = document.querySelector('#courtModal .court-close');
+        const settingIcon = document.getElementById('setting-icon');
+        const settingButtons = document.getElementById('setting-buttons');
 
+        // Settings Dropdown Handling
+        settingIcon.addEventListener('click', function(event) {
+            event.stopPropagation(); // Prevent event from bubbling up
+            const isVisible = settingButtons.style.display === 'block';
+            settingButtons.style.display = isVisible ? 'none' : 'block';
+        });
+
+        // Close settings dropdown when clicking anywhere on the screen
+        document.addEventListener('click', function(event) {
+            // Check if click is outside settings dropdown and button
+            if (!settingIcon.contains(event.target) && !settingButtons.contains(event.target)) {
+                settingButtons.style.display = 'none';
+            }
+        });
+  
         // Players Modal Handling
         document.getElementById('players-icon').addEventListener('click', () => {
             playerModal.style.display = "block";
