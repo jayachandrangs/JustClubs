@@ -12,7 +12,7 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
             color: #333;
             overflow: hidden;
         }
@@ -83,18 +83,18 @@
             background-color: #FFFFFF;
             /* Light teal for court boxes */
             padding: 10px;
-            border-radius: 5px;
+            border-radius: 2px;
             min-width: 250px; /* Ensure each box has a minimum width */
-            min-height: 160px;
+            max-height: 400px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             /* Darker shadow for depth */
-            border: 4px solid #BFBFBF;
+            border: 2px solid #008080;
             /* Teal border */
             transition: transform 0.2s ease;
             color: #000;
             /* Light text */
             margin-right: 10px; /* Add spacing between court boxes */
-            display: inline-block; /* Ensure they stay in a row */
+            display: table; /* Ensure they stay in a row */
             vertical-align: top; /* Align items to the top */
             text-align: center;
         }
@@ -149,7 +149,6 @@
             left: 0;
             right: 0;
             min-height: 10vh;
-            max-height: 30vh;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
