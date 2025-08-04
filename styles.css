@@ -1,311 +1,145 @@
-/* Reset basic styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* Reset */
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* Teal background color for all pages */
-.teal-bg {
-  background-color: #008080; /* Matches the teal logo color */
-  color: white;
+/* Whole-page teal background */
+body, .teal-bg {
+  background: #008080;
   min-height: 100vh;
+  min-width: 100vw;
+  color: #fff;
+  font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Center content styling */
 .center-content {
-  text-align: center;
-}
-
-.logo {
-  width: 150px;
-  margin-bottom: 20px;
-}
-
-.title {
-  font-size: 2rem;
-  margin-bottom: 20px;
-}
-
-/* Profile Form Styling */
-.profile-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  width: 300px;
-  margin: 20px auto 0;
+  align-items: center;
+  width: 360px;
+  background: rgba(255,255,255,0.06);
+  padding: 48px 32px 36px 32px;
+  border-radius: 22px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.14);
+}
+
+/* Modern gradient logo effect */
+.logo-gradient {
+  font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+  font-size: 2.5em;
+  font-weight: 700;
+  margin-bottom: 38px;
+  background: linear-gradient(90deg, #00b888 5%, #79e390 85%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; color: transparent;
+}
+.clubs-gradient {
+  background: linear-gradient(90deg, #41ad7b 10%, #31df50 90%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; color: transparent;
+}
+
+/* Login form in card style */
+.profile-form {
+  width: 100%;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 22px #00908022;
+  padding: 32px 24px 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
 }
 
 .profile-input {
-  padding: 12px 16px;
-  font-size: 1rem;
-  border: 2px solid white;
-  border-radius: 5px;
-  background: transparent;
-  color: white;
-  transition: all 0.3s ease;
+  width: 100%;
+  padding: 14px 14px;
+  font-size: 1.12em;
+  border: 2px solid #009080;
+  border-radius: 7px;
+  background: #f6fdfd;
+  color: #008080;
+  transition: border-color 0.2s, box-shadow 0.17s, background 0.17s;
 }
-
-.profile-input::placeholder {
-  color: rgba(255, 255, 255, 0.7);
-}
-
 .profile-input:focus {
   outline: none;
-  border-color: rgba(255, 255, 255, 0.8);
-  background-color: rgba(255, 255, 255, 0.1);
+  border-color: #79e390;
+  background: #e7ffef;
+  color: #006060;
 }
-
 .profile-input[readonly] {
-  opacity: 0.8;
-  cursor: default;
-  background-color: rgba(255, 255, 255, 0.1);
+  opacity: 0.85;
+  background: #f2faf8;
+  color: #777;
 }
 
-/* ---- Dropdown colour override ---- */
+/* Dropdown overrides for input styling */
 select.profile-input {
-  color: #000;            /* black text when closed */
-  background-color: #fff; /* white field */
+  color: #008080;
+  background: #fff;
+}
+select.profile-input:focus {
+  border-color: #31df50;
+}
+select.profile-input option {
+  color: #008080;
+  background: #fff;
 }
 
-select.profile-input option {
-  color: #000;            /* black text inside dropdown */
-  background-color: #fff; /* white option background */
+/* Buttons */
+.button-row {
+  display: flex;
+  gap: 18px;
+  width: 100%;
+  justify-content: center;
+  margin-top: 6px;
 }
-/* ---- end override ---- */
+.welcome-btn, .button {
+  padding: 12px 26px;
+  font-size: 1.1em;
+  color: #fff;
+  background: #00b888;
+  border: none;
+  border-radius: 7px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 2px solid #00b888;
+  transition: background 0.18s, box-shadow 0.13s, color 0.13s;
+  box-shadow: 0 1px 7px #22dd8840;
+}
+.welcome-btn:hover, .button:hover {
+  background: #2fc65e;
+  color: #fff;
+  box-shadow: 0 2px 9px #31df5070;
+}
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
-  .profile-form {
-    width: 90%;
-    max-width: 300px;
+@media (max-width: 500px) {
+  .center-content, .profile-form {
+    width: 95vw;
+    min-width: unset;
+    max-width: 99vw;
+    padding: 10vw 2vw;
   }
+  .profile-input { font-size: 1em; }
+  .logo-gradient { font-size: 2em; }
 }
 
-.welcome-btn, .button {
-  padding: 10px 20px;
-  font-size: 1rem;
-  color: white;
-  background-color: transparent;
-  border: 2px solid white;
-  cursor: pointer;
-  transition: background 0.3s;
+@media (max-width: 350px) {
+  .profile-form { padding: 5vw 0.5vw; }
 }
 
-.welcome-btn:hover, .button:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+/* Polished focus states */
+input[type="password"]:focus, input[type="email"]:focus {
+  background: #def9e7;
+  border-color: #41ad7b;
 }
 
-/* Responsive styling */
-@media (max-width: 768px) {
-  .title {
-    font-size: 1.5rem;
-  }
-}
-
-.player-btn {
-  display: block;
-  margin: 10px;
-  padding: 10px;
-  color: white;
-  background-color: transparent;
-  border: 2px solid white;
-  cursor: pointer;
-}
-
-.player-btn:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-/* Basic styles */
-.teal-bg {
-  background-color: teal;
-  color: white;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.button {
-  margin: 10px;
-  padding: 10px 20px;
-  color: teal;
-  background-color: white;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.player-grid {
-  display: grid;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-/* Responsive columns for player grid */
-@media (min-width: 1024px) { /* Desktop */
-  .player-grid {
-    grid-template-columns: repeat(5, 1fr);
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1023px) { /* Tablet */
-  .player-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-@media (max-width: 767px) { /* Mobile */
-  .player-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* Styles for each player item */
-.player-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.number-bubble {
-  display: inline-block;
-  background-color: yellow;
-  color: black;
-  border-radius: 50%;
-  padding: 5px 10px;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-.player-btn {
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.responsive-grid {
-  display: grid;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.responsive-grid > div {
-  background-color: white;
-  color: #008080;
-  padding: 10px;
-  border-radius: 5px;
-  text-align: center;
-  position: relative;
-}
-
-.player-number {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  background-color: yellow;
-  color: #000;
-  border-radius: 50%;
-  padding: 5px;
-  width: 25px;
-  height: 25px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-}
-
-.bottom-buttons {
-  margin-top: 20px;
-}
-
-.button {
-  margin: 5px;
-  padding: 10px 20px;
-  color: #008080;
-  background-color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.button:hover {
-  background-color: #e0e0e0;
-}
-
-@media (min-width: 1200px) {
-  .responsive-grid {
-    grid-template-columns: repeat(5, 1fr);
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1199px) {
-  .responsive-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-@media (max-width: 767px) {
-  .responsive-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-#playerModal {
-  max-height: 80vh;
-  overflow: hidden;
-  padding: 10px;
-}
-
-#playerModal .modal-content {
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
-  max-height: 100%;
-  overflow: hidden;
-  min-height: 0;
-}
-
-.center-content {
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
-  min-height: 0;
-}
-
-#playerList,
-.responsive-grid {
-  flex: 1 1 auto;
-  min-height: 0;
-  max-height: 200px;   /* BRUTAL LOW LIMIT for testing */
-  overflow-y: auto;
-  border: 2px solid red;
-}
-#playerList, .responsive-grid {
-  height: 100px;
-  max-height: 100px;
-  overflow-y: scroll;
-}
-
-#playerModal .modal-content {
-    display: flex !important;
-    flex-direction: column !important;
-    flex: 1 1 auto !important;
-    min-height: 0 !important;
-    max-height: 100% !important;
-    overflow: hidden !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
+::-webkit-input-placeholder { color: #00808099; }
+::-moz-placeholder { color: #00808099; }
+:-ms-input-placeholder { color: #00808099; }
+::placeholder { color: #00808099; }

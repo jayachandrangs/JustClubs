@@ -1,319 +1,322 @@
-        /* DynamicCourts.css */
-        /* General Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+			/* DynamicCourts.css */
+			/* General Styles */
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
 
-        body {
-            background-color: #ffffff;
-            /* Light teal white */
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
-            color: #333;
-            overflow: hidden;
-        }
+			body {
+				background-color: #ffffff;
+				/* Light teal white */
+				height: 100vh;
+				display: flex;
+				flex-direction: column;
+				font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+				color: #333;
+				overflow: hidden;
+			}
 
-        /* Header Styles */
-        #header {
-            height: 15vh;
-            background-color: #008080;
-            /* Teal Header */
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 0 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            /* Darker shadow for contrast */
-            color: white;
-            /* White text for header */
-        }
+			/* Header Styles */
+			#header {
+				height: 15vh;
+				background-color: #008080;
+				/* Teal Header */
+				display: flex;
+				justify-content: space-around;
+				align-items: center;
+				padding: 0 20px;
+				box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+				/* Darker shadow for contrast */
+				color: white;
+				/* White text for header */
+			}
 
-        #header>div {
-            text-align: center;
-        }
+			#header>div {
+				text-align: center;
+			}
 
-        .header-btn {
-            padding: 10px 20px;
-            background-color: #F5F5F5;
-            /* A lighter shade of teal */
-            color: black;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 0 5px;
-            transition: background-color 0.3s ease;
-        }
+			.header-btn {
+				padding: 10px 20px;
+				background-color: #F5F5F5;
+				/* A lighter shade of teal */
+				color: black;
+				border: none;
+				border-radius: 5px;
+				cursor: pointer;
+				margin: 0 5px;
+				transition: background-color 0.3s ease;
+			}
 
-        .header-btn:hover {
-            background-color: #008080;
-            /* Darker shade on hover */
-        }
+			.header-btn:hover {
+				background-color: #008080;
+				/* Darker shade on hover */
+			}
 
-        /* Content Styles */
-        #content {
-            height: 70vh;
-            padding: 5px;
-            display: flex; /* Changed to flexbox for single row */
-            flex-direction: row; /* Display court boxes in a row */
-            overflow-x: auto; /* Enable horizontal scrolling */
-            overflow-y: hidden; /* Hide vertical scrollbar */
-            white-space: nowrap; /* Prevent court boxes from wrapping */
-        }
+			/* Content Styles */
+			#content {
+				height: 70vh;
+				padding: 5px;
+				display: flex; /* Changed to flexbox for single row */
+				flex-direction: row; /* Display court boxes in a row */
+				overflow-x: auto; /* Enable horizontal scrolling */
+				overflow-y: hidden; /* Hide vertical scrollbar */
+				white-space: nowrap; /* Prevent court boxes from wrapping */
+			}
 
-        @media screen and (orientation: portrait) {
-            #content {
-                flex-direction: column;
-            }
-        }
-        
-        @media screen and (orientation: landscape) {
-            #content {
-                flex-direction: row;
-                overflow-x: auto;
-                overflow-y: hidden;
-                white-space: nowrap;
-            }
-        }
+			@media screen and (orientation: portrait) {
+				#content {
+					flex-direction: column;
+					height: 70vh;            /* or calc(100vh - header - rested-players) */
+					overflow-y: auto;        /* <-- Enable vertical scroll in portrait */
+					overflow-x: hidden;
+					white-space: normal;     /* Let flex column children wrap naturally */
+					padding-bottom: 22vh;    /* Add enough space for Rested Players bar */
+				}
+			}
+			
+			@media screen and (orientation: landscape) {
+				#content {
+					flex-direction: row;
+					overflow-x: auto;
+					overflow-y: hidden;
+					white-space: nowrap;
+				}
+			}
 
-        .court-box {
-            background-color: #FFFFFF;
-            /* Light teal for court boxes */
-            padding: 10px;
-            border-radius: 2px;
-            min-width: 250px; /* Ensure each box has a minimum width */
-            max-height: 400px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            /* Darker shadow for depth */
-            border: 2px solid #008080;
-            /* Teal border */
-            transition: transform 0.2s ease;
-            color: #000;
-            /* Light text */
-            margin-right: 10px; /* Add spacing between court boxes */
-            display: table; /* Ensure they stay in a row */
-            vertical-align: top; /* Align items to the top */
-            text-align: center;
-        }
+			.court-box {
+				background-color: #FFFFFF;
+				/* Light teal for court boxes */
+				padding: 10px;
+				border-radius: 2px;
+				min-width: 250px; /* Ensure each box has a minimum width */
+				max-height: 400px;
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+				/* Darker shadow for depth */
+				border: 2px solid #008080;
+				/* Teal border */
+				transition: transform 0.2s ease;
+				color: #000;
+				/* Light text */
+				margin-right: 10px; /* Add spacing between court boxes */
+				display: table; /* Ensure they stay in a row */
+				vertical-align: top; /* Align items to the top */
+				text-align: center;
+			}
 
-        @media screen and (orientation: portrait) {
-            .court-box {
-                margin-bottom: 10px;
-                width: 100%;
-            }
-        }
-        
-        @media screen and (orientation: landscape) {
-            .court-box {
-                margin-right: 10px;
-                display: inline-block;
-                vertical-align: top;
-            }
-        }
+			@media screen and (orientation: portrait) {
+				.court-box {
+					margin-bottom: 10px;
+					width: 100%;
+				}
+			}
+			
+			@media screen and (orientation: landscape) {
+				.court-box {
+					margin-right: 10px;
+				}
+			}
 
-        .court-box:hover {
-            transform: translateY(-5px);
-            /* Increased lift on hover */
-        }
+			.court-box:hover {
+				transform: translateY(-5px);
+				/* Increased lift on hover */
+			}
 
-        .court-box h3 {
-            font-size: 2.5em;
-            margin-bottom: 5px;
-            color: #333333;
-            /* Dark teal for titles */
-        }
+			.court-box h3 {
+				font-size: 2.5em;
+				margin-bottom: 5px;
+				color: #333333;
+				/* Dark teal for titles */
+			}
 
-        .player-name {
-            margin: 4px 0;
-            padding: 1.0px;
-            font-size: 2.5em;
-            text-align: left;
-            border-bottom: 1px solid #BFBFBF;
-            /* Lighter teal for player names */
-            display: block;
-            /* Ensure each player name is on a new line */
-        }
+			.player-name {
+				margin: 4px 0;
+				padding: 1.0px;
+				font-size: 2.5em;
+				text-align: left;
+				border-bottom: 1px solid #BFBFBF;
+				/* Lighter teal for player names */
+				display: block;
+				/* Ensure each player name is on a new line */
+			}
 
-        /* Rested Players Styles */
-        #rested-players {
-            background-color: #008080;
-            /* Teal for rested players section */
-            padding: 10px 15px;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
-            /* Increased shadow */
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            min-height: 10vh;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            /* Aligned to start */
-            color: white;
-            /* Light text */
-        }
+			/* Rested Players Styles */
+			#rested-players {
+				background-color: #008080;
+				/* Teal for rested players section */
+				padding: 10px 15px;
+				box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+				/* Increased shadow */
+				position: fixed;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				min-height: 10vh;
+				overflow-y: auto;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: flex-start;
+				/* Aligned to start */
+				color: white;
+				/* Light text */
+			}
 
-        #rested-players h3 {
-            color: #fff;
-            font-size: 1.5em;
-            margin-bottom: 5px;
-            text-align: center;
-        }
+			#rested-players h3 {
+				color: #fff;
+				font-size: 1.5em;
+				margin-bottom: 5px;
+				text-align: center;
+			}
 
-        .players-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            align-items: center;
-            justify-content: center;
-        }
+			.players-container {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 8px;
+				align-items: center;
+				justify-content: center;
+			}
 
-        .rested-player {
-            padding: 3;
-            /* Modified: removed padding */
-            white-space: nowrap;
-            overflow: wrap;
-            text-overflow: ellipsis;
-            max-width: 400px;
-            color: #fff;
-            /* Light text */
-            font-size: 2.5em;
-            /* Increased font size by 50% (1em * 1.5 = 1.5em) */
-        }
+			.rested-player {
+				padding: 3;
+				/* Modified: removed padding */
+				white-space: nowrap;
+				overflow: wrap;
+				text-overflow: ellipsis;
+				max-width: 400px;
+				color: #fff;
+				/* Light text */
+				font-size: 2.5em;
+				/* Increased font size by 50% (1em * 1.5 = 1.5em) */
+			}
 
-        /* Timer and Input Styles */
-        #timer {
-            color: white;
-            font-size: 2.2em;
-            font-weight: 600;
-        }
+			/* Timer and Input Styles */
+			#timer {
+				color: white;
+				font-size: 2.2em;
+				font-weight: 600;
+			}
 
-        #session-number {
-            color: white;
-            font-size: 1.4em;
-            font-weight: 500;
-        }
+			#session-number {
+				color: white;
+				font-size: 1.4em;
+				font-weight: 500;
+			}
 
-        #duration-input {
-            width: 60px;
-            padding: 8px;
-            border-radius: 5px;
-            border: 1px solid #4db6ac;
-            /* Teal border */
-            text-align: center;
-            margin-left: 5px;
-        }
+			#duration-input {
+				width: 60px;
+				padding: 8px;
+				border-radius: 5px;
+				border: 1px solid #4db6ac;
+				/* Teal border */
+				text-align: center;
+				margin-left: 5px;
+			}
 
-        /* Styles for player name colors */
-        .player-name.color-dark-blue {
-            color: darkblue;
-        }
+			/* Styles for player name colors */
+			.player-name.color-dark-blue {
+				color: darkblue;
+			}
 
-        .player-name.color-black {
-            color: black;
-        }
+			.player-name.color-black {
+				color: black;
+			}
 
-        .player-name.color-dark-red {
-            color: darkred;
-        }
+			.player-name.color-dark-red {
+				color: darkred;
+			}
 
-        .player-name.color-orange {
-            color: orange;
-        }
+			.player-name.color-orange {
+				color: orange;
+			}
 
-        .player-name.color-dark-orange {
-            color: dark-orange;
-        }
+			.player-name.color-dark-orange {
+				color: dark-orange;
+			}
 
-        .player-name.color-dark-green {
-            color: darkgreen;
-        }
+			.player-name.color-dark-green {
+				color: darkgreen;
+			}
 
-        /* Settings Dropdown Styles */
-        .settings-dropdown {
-            display: none;
-            position: absolute;
-            background-color: #008080;
-            /* Light background for the dropdown */
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-            right: 0;
-            /* Position dropdown to the right */
-            flex-direction: column;
-            /* Stack buttons vertically */
-            padding: 0.5em;
-            border-radius: 0.3125em;
-        }
+			/* Settings Dropdown Styles */
+			.settings-dropdown {
+				display: none;
+				position: absolute;
+				background-color: #008080;
+				/* Light background for the dropdown */
+				min-width: 160px;
+				box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+				z-index: 1;
+				right: 0;
+				/* Position dropdown to the right */
+				flex-direction: column;
+				/* Stack buttons vertically */
+				padding: 0.5em;
+				border-radius: 0.3125em;
+			}
 
-        .settings-dropdown button {
-            display: block;
-            /* Make buttons fill the width of the dropdown */
-            width: 100%;
-            text-align: left;
-            margin: 0.25em 0;
-        }
+			.settings-dropdown button {
+				display: block;
+				/* Make buttons fill the width of the dropdown */
+				width: 100%;
+				text-align: left;
+				margin: 0.25em 0;
+			}
 
-        /* Show the dropdown when the settings container has class of show */
-        .settings-dropdown.show {
-            display: flex;
-        }
-		
-		.player-separator {
-            color: white;
-            font-size: 2.5em;
+			/* Show the dropdown when the settings container has class of show */
+			.settings-dropdown.show {
+				display: flex;
+			}
+			
+			.player-separator {
+				color: white;
+				font-size: 2.5em;
 
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 2;
-            /* Ensure it's on top */
-        }
+			/* Modal Styles */
+			.modal {
+				display: none;
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background-color: rgba(0, 0, 0, 0.5);
+				z-index: 2;
+				/* Ensure it's on top */
+			}
 
-        .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            width: 80%;
-            /* Adjust width as needed */
-            max-height: 80%;
-            /* Adjust height as needed */
-            overflow: auto;
-            /* Enable scrolling if content is too long */
-        }
+			.modal-content {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				background-color: white;
+				padding: 20px;
+				border-radius: 5px;
+				width: 80%;
+				/* Adjust width as needed */
+				max-height: 80%;
+				/* Adjust height as needed */
+				overflow: auto;
+				/* Enable scrolling if content is too long */
+			}
 
-        .modal.show {
-            display: none;
-        }
+			.modal.show {
+				display: block;
+			}
 
-        .player-separator {
-            color: white;
-            font-size: 2.5em;
-        }
+			.player-separator {
+				color: white;
+				font-size: 2.5em;
+			}
 
-        #courts-icon {
-            background-color: #4CAF50;
-            padding: 12px;
-            border-radius: 4px;
-            margin-left: 10px;
-        } 
-        #playerModal {
-            display: none;
-            opacity: 0; /* Ensure it's fully transparent as well */
-        }
+			#courts-icon {
+				background-color: #4CAF50;
+				padding: 12px;
+				border-radius: 4px;
+				margin-left: 10px;
+			} 
+			#playerModal {
+				display: none;
+				opacity: 0; /* Ensure it's fully transparent as well */
+			}
