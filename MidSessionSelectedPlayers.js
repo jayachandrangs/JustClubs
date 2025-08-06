@@ -307,7 +307,8 @@ function displayPlayers(players) {
     const playerDiv = document.createElement('div');
     playerDiv.classList.add('player-div');
     playerDiv.onclick = () => togglePlayerNumber(player.Player, playerDiv);
-    playerDiv.innerText = player.Player;
+    // playerDiv.innerText = player.Player;
+    playerDiv.innerText = `${player.Player}, ${player.Primary_Division || 'No Division'}`;
     playerDiv.id = `player-${player.Player.replace(/\s+/g, '-')}`;
     playerListDiv.appendChild(playerDiv);
     
