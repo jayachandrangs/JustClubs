@@ -11,16 +11,16 @@ let PlayDayConfig = JSON.parse(localStorage.getItem('PlayDayConfig')) || {
     pdb: '123list.csv',
     nsession: '5',
     sduration: '15',
-    S1: 'Basic1',
+    S1: 'MixedDiv1',
     S2: 'Basic2',
-    S3: 'MixedDiv1',
-    S4: 'MixedDiv2',
+    S3: 'Basic1',
+    S4: 'MixedDiv3',
     S5: 'Basic3',
     S6: 'Basic4',
     S7: 'MixedDiv3',
-    S8: 'MixedDiv3',
+    S8: 'Basic2',
     S9: 'Basic1',
-    S10: 'Basic2',
+    S10: 'MixedDiv1',
     currentSession: 1,
     numberToAssign: 0,
     winreload: 1,
@@ -123,9 +123,9 @@ function setPlayDayConfig() {
         
         // Second batch after a delay
         setTimeout(() => {
-            playDayConfig.S1 = 'Basic1';
+            playDayConfig.S1 = 'MixedDiv1';
             playDayConfig.S2 = 'Basic2';
-            playDayConfig.S3 = 'MixedDiv1';
+            playDayConfig.S3 = 'Basic1';
             playDayConfig.S4 = 'MixedDiv2';
             playDayConfig.S5 = 'Basic3';
             
@@ -135,10 +135,10 @@ function setPlayDayConfig() {
                 // Third batch after another delay
                 setTimeout(() => {
                     playDayConfig.S6 = 'Basic4';
-                    playDayConfig.S7 = 'MixedDiv3';
+                    playDayConfig.S7 = 'Basic2';
                     playDayConfig.S8 = 'MixedDiv3';
                     playDayConfig.S9 = 'Basic1';
-                    playDayConfig.S10 = 'Basic2';
+                    playDayConfig.S10 = 'MixedDiv3';
                     playDayConfig.currentSession = 1;
                     playDayConfig.winreload = 1;
                     
@@ -526,16 +526,16 @@ function initializeLocalStorage() {
             pdb: '333rlist.csv',
             nsession: 5,
             sduration: 15,
-            S1: 'Basic1',
+            S1: 'MixedDiv1',
             S2: 'Basic2',
-            S3: 'MixedDiv1',
-            S4: 'MixedDiv2',
+            S3: 'Basic1',
+            S4: 'MixedDiv3',
             S5: 'Basic3',
             S6: 'Basic4',
-            S7: 'MixedDiv3',
+            S7: 'Basic2',
             S8: 'MixedDiv3',
             S9: 'Basic1',
-            S10: 'Basic2',
+            S10: 'MixedDiv1',
             currentSession: 1,
             winreload: 1,
             courts: ["Court1", "Court2", "Court3", "Court4", "Court5", "Court6"]
@@ -689,7 +689,7 @@ function loadSession(sessionNumber) {
                 winreload = 1;
                 updateCurrentSession(currentSession);
                 // setTimeout(actionB, 10000);
-                 window.location.href = 'celebrations.html';
+                // window.location.href = 'celebrations.html';
                  clearInterval(timerInterval);
                 return;
             }

@@ -33,10 +33,10 @@
         }
         .close {
             position: absolute;
-            right: 10px;
+            right: 36px;
             top: 0;
-            color: #aaa;
-            font-size: 28px;
+            color: #fff;
+            font-size: 52px;
             cursor: pointer;
         }
     </style>
@@ -106,95 +106,124 @@
 
     <script src="DynamicCourts.js"></script>
     <script src="MidSessionSelectedPlayers.js"></script>
-<script>
-        // Safely get elements
-        const playerModal = document.getElementById('playerModal');
-        const courtModal = document.getElementById('courtModal');
-        const playerClose = document.querySelector('#playerModal .player-close');
-        const courtClose = document.querySelector('#courtModal .court-close');
-        const settingIcon = document.getElementById('setting-icon');
-        const settingButtons = document.getElementById('setting-buttons');
-
-        // Settings Dropdown Handling
-        settingIcon.addEventListener('click', function(event) {
-            event.stopPropagation(); // Prevent event from bubbling up
-            const isVisible = settingButtons.style.display === 'block';
-            settingButtons.style.display = isVisible ? 'none' : 'block';
-        });
-
-        // Close settings dropdown when clicking anywhere on the screen
-        document.addEventListener('click', function(event) {
-            // Check if click is outside settings dropdown and button
-            if (!settingIcon.contains(event.target) && !settingButtons.contains(event.target)) {
-                settingButtons.style.display = 'none';
-            }
-        });
-  
-        // Players Modal Handling
-        document.getElementById('players-icon').addEventListener('click', () => {
-            playerModal.style.display = "block";
-            setTimeout(() => playerModal.style.opacity = 1, 10);
-        });
-
-        if(playerClose) {
-            playerClose.onclick = () => {
-                playerModal.style.display = "none";
-                console.log('[PLAYERS] Modal closed via X button');
-                updateRestedPlayersOnModalClose();
-            };
-        }
-
-        // Courts Modal Handling
-        document.getElementById('courts-icon').addEventListener('click', () => {
-            courtModal.style.display = "flex";
-            //document.getElementById('courtConfigFrame').contentWindow.location.reload();
-        });
-
-        if(courtClose) {
-           courtClose.onclick = () => {
-                courtModal.style.display = "none";
-                console.log('[COURTS] Modal closed via X button');
-
-                // Delay the check for 'PlayDayConfig:winreload'
-                setTimeout(() => {
-                   const config = JSON.parse(localStorage.getItem('PlayDayConfig'));
-                   if (config && config.winreload === 1) {
-                     config.winreload = 0;
-                     localStorage.setItem('PlayDayConfig', JSON.stringify(config));
-                     window.location.reload();
-                   }
-                }, 200); // 200ms delay
-            };
-        }
-
-        // Background Click Handling
-       window.onclick = function(event) {
-            if(event.target === playerModal) {
-                playerModal.style.display = "none";
-                console.log('[PLAYERS] Modal closed via background');
-                updateRestedPlayersOnModalClose();
-            }
-            if(event.target === courtModal) {
-                courtModal.style.display = "none";
-                console.log('[COURTS] Modal closed via background');
-                 // Delay the check for 'PlayDayConfig:winreload'
-                setTimeout(() => {
-                   const config = JSON.parse(localStorage.getItem('PlayDayConfig'));
-                   if (config && config.winreload === 1) {
-                     config.winreload = 0;
-                     localStorage.setItem('PlayDayConfig', JSON.stringify(config));
-                     window.location.reload();
-                   }
-                }, 200); // 200ms delay
-            }
-        };
-
-        // Reset PlayDayConfig:winreload to 0 after reload (ensure it only runs once)
-        if (localStorage.getItem('PlayDayConfig:winreload') === '1') {
-            localStorage.setItem('PlayDayConfig:winreload', '0');
-            console.log("PlayDayConfig:winreload reset to 0 after reload.");
-        }
-
-    </script>
+         <script>
+                 // MINIMAL DEFENSIVE INITIALIZATION
+                 document.addEventListener('DOMContentLoaded', function() {
+                     const playerModal = document.getElementById('playerModal');
+                     if (playerModal) {
+                         // Just ensure it's hidden, don't block pointer events
+                         playerModal.style.display = 'none';
+                         playerModal.style.opacity = 0;
+                     }
+                 });
+                 // Safely get elements
+                 const playerModal = document.getElementById('playerModal');
+                 const courtModal = document.getElementById('courtModal');
+                 const playerClose = document.querySelector('#playerModal .player-close');
+                 const courtClose = document.querySelector('#courtModal .court-close');
+                 const settingIcon = document.getElementById('setting-icon');
+                 const settingButtons = document.getElementById('setting-buttons');
+         
+                 // Settings Dropdown Handling
+                 settingIcon.addEventListener('click', function(event) {
+                     event.stopPropagation(); // Prevent event from bubbling up
+                     const isVisible = settingButtons.style.display === 'block';
+                     settingButtons.style.display = isVisible ? 'none' : 'block';
+                 });
+         
+                 // Close settings dropdown when clicking anywhere on the screen
+                 document.addEventListener('click', function(event) {
+                     // Check if click is outside settings dropdown and button
+                     if (!settingIcon.contains(event.target) && !settingButtons.contains(event.target)) {
+                         settingButtons.style.display = 'none';
+                     }
+                 });
+         
+                 // Robust close function that blocks event bubbling
+                 function closePlayerModal(event) {
+                     if (event) {
+                         event.stopPropagation();
+                         event.preventDefault();
+                     }
+                     playerModal.style.display = 'none';
+                     playerModal.style.opacity = 0;
+                     console.log('[PLAYERS] Modal closed');
+                     if (typeof updateRestedPlayersOnModalClose === 'function') {
+                         updateRestedPlayersOnModalClose();
+                     }
+                 }
+           
+                 // Players Modal Handling - CORRECTED
+                 document.getElementById('players-icon').addEventListener('click', () => {
+                     playerModal.style.display = "block";  // ✅ CORRECT: Show the modal
+                     setTimeout(() => playerModal.style.opacity = 1, 10);
+                 });
+         
+                 if(playerClose) {
+                     playerClose.onclick = closePlayerModal;  // ✅ CORRECT: Close the modal
+                 }
+         
+                 // Prevent modal-content clicks from closing modal
+                 const playerModalContent = document.querySelector('#playerModal .modal-content');
+                 if (playerModalContent) {
+                     playerModalContent.onclick = function(event) {
+                         event.stopPropagation();
+                     };
+                 }
+         
+                 // Player Modal backdrop click handling
+                 playerModal.onclick = function(event) {
+                     if (event.target === playerModal) {
+                         closePlayerModal(event);
+                     }
+                 };
+         
+                 // Courts Modal Handling
+                 document.getElementById('courts-icon').addEventListener('click', () => {
+                     courtModal.style.display = "flex";
+                     //document.getElementById('courtConfigFrame').contentWindow.location.reload();
+                 });
+         
+                 if(courtClose) {
+                    courtClose.onclick = () => {
+                         courtModal.style.display = "none";
+                         console.log('[COURTS] Modal closed via X button');
+         
+                         // Delay the check for 'PlayDayConfig:winreload'
+                         setTimeout(() => {
+                            const config = JSON.parse(localStorage.getItem('PlayDayConfig'));
+                            if (config && config.winreload === 1) {
+                              config.winreload = 0;
+                              localStorage.setItem('PlayDayConfig', JSON.stringify(config));
+                              window.location.reload();
+                            }
+                         }, 200); // 200ms delay
+                     };
+                 }
+         
+                 // Background Click Handling - Only for Court Modal now
+                 window.onclick = function(event) {
+                     if(event.target === courtModal) {
+                         courtModal.style.display = "none";
+                         console.log('[COURTS] Modal closed via background');
+                          // Delay the check for 'PlayDayConfig:winreload'
+                         setTimeout(() => {
+                            const config = JSON.parse(localStorage.getItem('PlayDayConfig'));
+                            if (config && config.winreload === 1) {
+                              config.winreload = 0;
+                              localStorage.setItem('PlayDayConfig', JSON.stringify(config));
+                              window.location.reload();
+                            }
+                         }, 200); // 200ms delay
+                     }
+                 };
+         
+                 // Reset PlayDayConfig:winreload to 0 after reload (ensure it only runs once)
+                 if (localStorage.getItem('PlayDayConfig:winreload') === '1') {
+                     localStorage.setItem('PlayDayConfig:winreload', '0');
+                     console.log("PlayDayConfig:winreload reset to 0 after reload.");
+                 }
+         
+         </script>
 </body>
 </html>
