@@ -1546,9 +1546,10 @@ function freshstart() {
         localStorage.removeItem('Session_5_RestedPlayers');
     }
     
-    location.href = "Index.html";
+    location.href = "https://jayachandrangs.github.io/JustClubs/";
 }
 
 
 initialize(); // calling initialize function
+
 
