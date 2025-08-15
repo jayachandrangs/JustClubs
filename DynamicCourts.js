@@ -21,6 +21,8 @@ let PlayDayConfig = JSON.parse(localStorage.getItem('PlayDayConfig')) || {
     S8: 'Basic2',
     S9: 'Basic1',
     S10: 'MixedDiv1',
+    S11: 'Basic1',
+    S12: 'Basic2',
     currentSession: 1,
     numberToAssign: 0,
     winreload: 1,
@@ -139,6 +141,8 @@ function setPlayDayConfig() {
                     playDayConfig.S8 = 'MixedDiv3';
                     playDayConfig.S9 = 'Basic1';
                     playDayConfig.S10 = 'MixedDiv3';
+                    playDayConfig.S11 = 'Basic1';
+                    playDayConfig.S12 = 'Basic2';
                     playDayConfig.currentSession = 1;
                     playDayConfig.winreload = 1;
                     
@@ -358,6 +362,8 @@ function checkAndClearSessions() {
         "Session_8", "Session_8_RestedPlayers",
         "Session_9", "Session_9_RestedPlayers",
         "Session_10", "Session_10_RestedPlayers",
+        "Session_11", "Session_11_RestedPlayers",
+        "Session_12", "Session_12_RestedPlayers",
         "playerDataForMPlay"
     ];
 
@@ -536,6 +542,8 @@ function initializeLocalStorage() {
             S8: 'MixedDiv3',
             S9: 'Basic1',
             S10: 'MixedDiv1',
+            S11: 'Basic1',
+            S12: 'Basic2',
             currentSession: 1,
             winreload: 1,
             courts: ["Court1", "Court2", "Court3", "Court4", "Court5", "Court6"]

@@ -14,6 +14,8 @@ let PlayDayConfig = JSON.parse(localStorage.getItem('PlayDayConfig')) || {
     S8: 'Basic2',
     S9: 'Basic1',
     S10: 'MixedDiv3',
+    S11: 'Basic1',
+    S12: 'Basic2',
     currentSession: 1,
     numberToAssign:0,
     winreload: 1,
@@ -157,6 +159,8 @@ function checkAndClearSessions() {
         "Session_8", "Session_8_RestedPlayers",
         "Session_9", "Session_9_RestedPlayers",
         "Session_10", "Session_10_RestedPlayers",
+        "Session_11", "Session_11_RestedPlayers",
+        "Session_12", "Session_12_RestedPlayers",
         "playerDataForMPlay"
     ];
     sessionKeys.forEach(key => {
@@ -205,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 1; i <= 12; i++) {
         const sessionSelect = document.getElementById(`S${i}`);
          if(sessionSelect){ //ADD THIS CHECK
             sessionSelect.addEventListener('change', function() {
@@ -242,7 +246,7 @@ function loadValuesFromLocalStorage() {
         sdurationSelect.value = PlayDayConfig.sduration;
     }
 
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 1; i <= 12; i++) {
         const sessionKey = `S${i}`;
         if (PlayDayConfig[sessionKey]) {
             const sessionSelect = document.getElementById(sessionKey);
