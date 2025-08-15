@@ -13,6 +13,7 @@ let REMOVALOT;
 const UNSETNUM = Array(10).fill(0);
 const playerInfo = {};
 let isLoading = false;
+let selectedDivisions = new Set();        // empty ⇒ no div filter
 
 // Load players from localStorage or prompt for upload if not available
 async function loadPlayers() {
@@ -236,54 +237,87 @@ function scrollToLetter(letter) {
 }
 
 
-function filterPlayers() {
-  const searchInput = document.getElementById('searchBar').value.toLowerCase();
-  const players = document.getElementsByClassName('player-div');
-  const separators = document.getElementsByClassName('alphabet-separator');
-  
-  let lastVisibleSeparator = null;
-  
-  for (let i = 0; i < players.length; i++) {
-    const player = players[i];
-    const playerName = player.textContent.toLowerCase();
-    const isVisible = playerName.startsWith(searchInput);
-    player.style.display = isVisible ? '' : 'none';
-    
-    if (i > 0 && separators[i - 1]) {
-      if (isVisible) {
-        separators[i - 1].style.display = lastVisibleSeparator !== separators[i - 1] ? '' : 'none';
-        lastVisibleSeparator = separators[i - 1];
-      } else {
-        separators[i - 1].style.display = 'none';
-      }
+function filterPlayers(){
+    const searchText = document.getElementById('searchBar').value.toLowerCase();
+    const players    = document.getElementsByClassName('player-div');
+    const separators = document.getElementsByClassName('alphabet-separator');
+
+    let lastVisibleSeparator = null;
+
+    for (let i = 0; i < players.length; i++){
+        const pDiv      = players[i];
+        const nameMatch = pDiv.dataset.name.startsWith(searchText);
+        const voteMatch = !showOnlyVoted || +pDiv.dataset.team === 1;
+
+        // division filter
+        const divValue  = parseInt(pDiv.dataset.div, 10);
+        const divMatch  = selectedDivisions.size === 0 || selectedDivisions.has(divValue);
+
+        const visible   = nameMatch && voteMatch && divMatch;   // ← single declaration
+        pDiv.style.display = visible ? '' : 'none';             // ← single assignment
+
+        /* separator logic unchanged */
+        if (i > 0 && separators[i - 1]) {
+            separators[i - 1].style.display = visible
+                 ? (lastVisibleSeparator !== separators[i - 1] ? '' : 'none')
+                 : 'none';
+            if (visible) lastVisibleSeparator = separators[i - 1];
+        }
     }
-  }
-  
-  // Hide the last separator if no players are visible after it
-  if (lastVisibleSeparator && lastVisibleSeparator === separators[separators.length - 1]) {
-    let hasVisiblePlayers = false;
-    for (let i = separators.length - 1; i < players.length; i++) {
-      if (players[i].style.display !== 'none') {
-        hasVisiblePlayers = true;
-        break;
-      }
+
+    // hide trailing separator if nothing below it is visible
+    if (lastVisibleSeparator &&
+        lastVisibleSeparator === separators[separators.length - 1]) {
+
+        let anyVisible = false;
+        for (let i = separators.length - 1; i < players.length; i++){
+            if (players[i].style.display !== 'none'){ anyVisible = true; break; }
+        }
+        if (!anyVisible) lastVisibleSeparator.style.display = 'none';
     }
-    if (!hasVisiblePlayers) {
-      lastVisibleSeparator.style.display = 'none';
-    }
-  }
 }
 
 
+// put the flag near your other globals
+let showOnlyVoted = false;               // <-- 1  add back
 
-// Add event listeners
 document.addEventListener('DOMContentLoaded', () => {
-  loadPlayers();
-  createAlphabetScrollBar();
-  document.getElementById('searchBar').addEventListener('input', filterPlayers);
-  document.getElementById('playerModal').style.display = "block"; // ADD THIS LINE
+  loadPlayers();                         // fill list
+  createAlphabetScrollBar();             // A-Z bar
 
-});
+  // search box
+  document.getElementById('searchBar')
+          .addEventListener('input', filterPlayers);
+
+  // voted-for-today toggle
+  const voteBtn = document.getElementById('voteFilterBtn');   // <-- 2  declare
+  if (voteBtn) {
+      voteBtn.addEventListener('click', () => {
+          showOnlyVoted = !showOnlyVoted;                      // flip ON/OFF
+          console.log('showOnlyVoted now', showOnlyVoted);     // debug
+          voteBtn.classList.toggle('active', showOnlyVoted);
+          voteBtn.textContent = showOnlyVoted ? 'List all Players' : 'Voted for Today';
+          filterPlayers();                                     // re-apply filter
+      });
+  }
+});   // <-- 3  only ONE closing brace here
+
+// division filter pills
+document.querySelectorAll('.div-toggle-btn')
+        .forEach(btn => btn.addEventListener('click', () => {
+            const divNum = parseInt(btn.dataset.div, 10);
+
+            // toggle membership in the Set
+            if (selectedDivisions.has(divNum)) {
+                selectedDivisions.delete(divNum);
+                btn.classList.remove('active');
+            } else {
+                selectedDivisions.add(divNum);
+                btn.classList.add('active');
+            }
+            filterPlayers();          // re-apply all filters
+}));
+	
 
 function displayPlayers(players) {
   const playerListDiv = document.getElementById('playerList');
@@ -306,6 +340,9 @@ function displayPlayers(players) {
     
     const playerDiv = document.createElement('div');
     playerDiv.classList.add('player-div');
+    playerDiv.dataset.name = player.Player.toLowerCase();      // for search
+    playerDiv.dataset.team = player.Team ?? 0;                 // Team field
+    playerDiv.dataset.div = parseInt(player.Primary_Division ?? 0, 10);// ← NEW
     playerDiv.onclick = () => togglePlayerNumber(player.Player, playerDiv);
     // playerDiv.innerText = player.Player;
     playerDiv.innerText = `${player.Player}, ${player.Primary_Division || 'No Division'}`;
@@ -323,6 +360,3 @@ function displayPlayers(players) {
   TOTALPLAYERS = players.filter(player => player.PlayingToday > 0).length;
   updateTotalPlayersDisplay();
 }
-
-// Execute loadPlayers when the page loads
-document.addEventListener('DOMContentLoaded', loadPlayers);
