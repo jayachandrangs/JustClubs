@@ -12,6 +12,43 @@ const UNSETNUM = Array(10).fill(0);
 const playerInfo = {};
 let isLoading = false;
 
+function getPlayerName(player) {
+  return player.name || player.Player;
+}
+
+function getNextAvailablePlayerNumber(playingToday) {
+  const usedNumbers = new Set(
+    playingToday
+      .map(player => Number(player.number))
+      .filter(number => Number.isInteger(number) && number > 0)
+  );
+
+  for (let number = 1; number <= NUMPLAYERS; number++) {
+    if (!usedNumbers.has(number)) {
+      return number;
+    }
+  }
+
+  return null;
+}
+
+function syncPlayDayNumberState(playDayConfig, playingToday) {
+  const usedNumbers = playingToday
+    .map(player => Number(player.number))
+    .filter(number => Number.isInteger(number) && number > 0);
+  const highestNumber = usedNumbers.length ? Math.max(...usedNumbers) : 0;
+  const usedNumberSet = new Set(usedNumbers);
+
+  playDayConfig.numberToAssign = highestNumber;
+  playDayConfig.removedNumbers = [];
+
+  for (let number = 1; number < highestNumber; number++) {
+    if (!usedNumberSet.has(number)) {
+      playDayConfig.removedNumbers.push(number);
+    }
+  }
+}
+
 // Load players from localStorage or prompt for upload if not available
 async function loadPlayers() {
   if (isLoading) {
@@ -48,22 +85,16 @@ function togglePlayerNumber(playerName, playerDiv) {
   let playingToday = JSON.parse(localStorage.getItem('PlayingToday')) || [];
 
   if (playerInfo[playerName].number === null) {
-    let numberToAssign;
-    if (playDayConfig.removedNumbers.length > 0) {
-      numberToAssign = Math.min(...playDayConfig.removedNumbers);
-      playDayConfig.removedNumbers = playDayConfig.removedNumbers.filter(n => n !== numberToAssign);
-    } else {
-      numberToAssign = (playDayConfig.numberToAssign || 0) + 1;
-    }
+    playingToday = playingToday.filter(player => getPlayerName(player) !== playerName);
+    let numberToAssign = getNextAvailablePlayerNumber(playingToday);
 
-    if (numberToAssign <= NUMPLAYERS) {
+    if (numberToAssign !== null) {
       playerInfo[playerName].number = numberToAssign;
       createNumberBubble(playerDiv, numberToAssign);
       if (playerIndex !== -1) {
         playersData[playerIndex].PlayingToday = numberToAssign;
         TOTALPLAYERS++;
-        playersData[playerIndex].alloted += 1;
-        playDayConfig.numberToAssign = Math.max(playDayConfig.numberToAssign || 0, numberToAssign);
+        playersData[playerIndex].alloted = (playersData[playerIndex].alloted || 0) + 1;
 
         if (playingToday.length > 0) {
           let lowestPlayed = Math.min(...playingToday.map(p => p.played || 0));
@@ -88,18 +119,16 @@ function togglePlayerNumber(playerName, playerDiv) {
       return;
     }
   } else {
-    let removedNumber = playerInfo[playerName].number;
-    playDayConfig.removedNumbers.push(removedNumber);
-    playDayConfig.removedNumbers.sort((a, b) => a - b);
     playerInfo[playerName].number = null;
     if (playerIndex !== -1) {
       playersData[playerIndex].PlayingToday = 0;
       TOTALPLAYERS--;
-      playersData[playerIndex].alloted -= 1;
-      playingToday = playingToday.filter(player => player.name !== playerName);
+      playersData[playerIndex].alloted = Math.max(0, (playersData[playerIndex].alloted || 0) - 1);
+      playingToday = playingToday.filter(player => getPlayerName(player) !== playerName);
     }
   }
 
+  syncPlayDayNumberState(playDayConfig, playingToday);
   localStorage.setItem('clubmembers', JSON.stringify(playersData));
   localStorage.setItem('PlayDayConfig', JSON.stringify(playDayConfig));
   localStorage.setItem('PlayingToday', JSON.stringify(playingToday));
@@ -152,7 +181,14 @@ function resetPlayers() {
     player.PlayingToday = 0; // Reset playingToday for all players
     player.alloted = 0; // Reset alloted count for all players
   });
+  let playDayConfig = JSON.parse(localStorage.getItem('PlayDayConfig')) || {};
+  playDayConfig.numberToAssign = 0;
+  playDayConfig.removedNumbers = [];
   localStorage.setItem('clubmembers', JSON.stringify(playersData));
+  localStorage.setItem('PlayingToday', JSON.stringify([]));
+  localStorage.setItem('PlayDayConfig', JSON.stringify(playDayConfig));
+  TOTALPLAYERS = 0;
+  updateTotalPlayersDisplay();
 }
 
 // Confirm allocation and store in LocalStorage

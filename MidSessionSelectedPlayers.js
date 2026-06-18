@@ -15,6 +15,43 @@ const playerInfo = {};
 let isLoading = false;
 let selectedDivisions = new Set();        // empty ⇒ no div filter
 
+function getPlayerName(player) {
+  return player.name || player.Player;
+}
+
+function getNextAvailablePlayerNumber(playingToday) {
+  const usedNumbers = new Set(
+    playingToday
+      .map(player => Number(player.number))
+      .filter(number => Number.isInteger(number) && number > 0)
+  );
+
+  for (let number = 1; number <= NUMPLAYERS; number++) {
+    if (!usedNumbers.has(number)) {
+      return number;
+    }
+  }
+
+  return null;
+}
+
+function syncPlayDayNumberState(playDayConfig, playingToday) {
+  const usedNumbers = playingToday
+    .map(player => Number(player.number))
+    .filter(number => Number.isInteger(number) && number > 0);
+  const highestNumber = usedNumbers.length ? Math.max(...usedNumbers) : 0;
+  const usedNumberSet = new Set(usedNumbers);
+
+  playDayConfig.numberToAssign = highestNumber;
+  playDayConfig.removedNumbers = [];
+
+  for (let number = 1; number < highestNumber; number++) {
+    if (!usedNumberSet.has(number)) {
+      playDayConfig.removedNumbers.push(number);
+    }
+  }
+}
+
 // Load players from localStorage or prompt for upload if not available
 async function loadPlayers() {
   if (isLoading) {
@@ -71,17 +108,10 @@ function togglePlayerNumber(playerName, playerDiv) {
   if (playerInfo[playerName].number === null) {
     // console.log(`playerInfo[${playerName}].number is null - Assigning a number`);
 
-    let numberToAssign;
-    if (playDayConfig.removedNumbers.length > 0) {
-      numberToAssign = Math.min(...playDayConfig.removedNumbers);
-      // console.log(`Reusing removed number: ${numberToAssign}`);
-      playDayConfig.removedNumbers = playDayConfig.removedNumbers.filter(n => n !== numberToAssign);
-    } else {
-      numberToAssign = (playDayConfig.numberToAssign || 0) + 1;
-      // console.log(`Assigning new number: ${numberToAssign}`);
-    }
+    playingToday = playingToday.filter(player => getPlayerName(player) !== playerName);
+    let numberToAssign = getNextAvailablePlayerNumber(playingToday);
 
-    if (numberToAssign <= NUMPLAYERS) {
+    if (numberToAssign !== null) {
       // console.log(`Number ${numberToAssign} is within NUMPLAYERS limit`);
       playerInfo[playerName].number = numberToAssign;
       // console.log(`Assigned number ${numberToAssign} to playerInfo[${playerName}].number`);
@@ -95,9 +125,6 @@ function togglePlayerNumber(playerName, playerDiv) {
         // console.log(`Incremented TOTALPLAYERS to ${TOTALPLAYERS}`);
         playersData[playerIndex].alloted = 2;  // SET alloted to 2 (initial assignment)
         // console.log(`SET playersData[${playerIndex}].alloted to 2`);
-        playDayConfig.numberToAssign = Math.max(playDayConfig.numberToAssign || 0, numberToAssign);
-        // console.log(`Updated playDayConfig.numberToAssign to ${playDayConfig.numberToAssign}`);
-
         if (playingToday.length > 0) {
           let lowestPlayed = Math.min(...playingToday.map(p => p.played || 0));
           let highestRested = Math.max(...playingToday.map(p => p.rested || 1));
@@ -131,10 +158,7 @@ function togglePlayerNumber(playerName, playerDiv) {
   } else {
     // console.log(`playerInfo[${playerName}].number is NOT null - Removing number`);
 
-    let removedNumber = playerInfo[playerName].number;
-    // console.log(`Removing number: ${removedNumber}`);
-    playDayConfig.removedNumbers.push(removedNumber);
-    playDayConfig.removedNumbers.sort((a, b) => a - b);
+    // console.log(`Removing number: ${playerInfo[playerName].number}`);
     playerInfo[playerName].number = null;
     // console.log(`Set playerInfo[${playerName}].number to null`);
 
@@ -143,13 +167,14 @@ function togglePlayerNumber(playerName, playerDiv) {
       // console.log(`Set playersData[${playerIndex}].PlayingToday to 0`);
       TOTALPLAYERS--;
       // console.log(`Decremented TOTALPLAYERS to ${TOTALPLAYERS}`);
-      playersData[playerIndex].alloted -= 1; // Decrement alloted when removing
+      playersData[playerIndex].alloted = 0;
       // console.log(`Decremented playersData[${playerIndex}].alloted to ${playersData[playerIndex].alloted}`);
-      playingToday = playingToday.filter(player => player.name !== playerName);
+      playingToday = playingToday.filter(player => getPlayerName(player) !== playerName);
       // console.log(`Removed player from playingToday`);
     }
   }
 
+  syncPlayDayNumberState(playDayConfig, playingToday);
   localStorage.setItem('clubmembers', JSON.stringify(playersData));
   // console.log(`Updated clubmembers in localStorage:`, playersData);
   localStorage.setItem('PlayDayConfig', JSON.stringify(playDayConfig));
@@ -206,7 +231,14 @@ function resetPlayers() {
     player.PlayingToday = 0; // Reset playingToday for all players
    // player.alloted = 0; // Reset alloted count for all players  <--- REMOVE or COMMENT THIS LINE
   });
+  let playDayConfig = JSON.parse(localStorage.getItem('PlayDayConfig')) || {};
+  playDayConfig.numberToAssign = 0;
+  playDayConfig.removedNumbers = [];
   localStorage.setItem('clubmembers', JSON.stringify(playersData));
+  localStorage.setItem('PlayingToday', JSON.stringify([]));
+  localStorage.setItem('PlayDayConfig', JSON.stringify(playDayConfig));
+  TOTALPLAYERS = 0;
+  updateTotalPlayersDisplay();
 }
 
 // Confirm allocation and store in LocalStorage
