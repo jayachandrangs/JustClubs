@@ -460,7 +460,7 @@ async function initialize() {
                 })
                 .catch(err => console.error('Failed to acquire wake lock:', err));
         } else {
-            console.warn('Wake Lock API not supported.');
+            console.warn('Screen wake lock is unavailable in this browser.');
         }
 
         // Fullscreen
