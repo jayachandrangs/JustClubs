@@ -460,7 +460,7 @@ async function initialize() {
                 })
                 .catch(err => console.error('Failed to acquire wake lock:', err));
         } else {
-            console.warn('Wake Lock API not supported.');
+            console.warn('Screen wake lock is unavailable in this browser.');
         }
 
         // Fullscreen
@@ -505,8 +505,6 @@ async function initialize() {
         // Event listeners for main buttons
         document.getElementById('FreshStart-btn').addEventListener('click', freshstart);
         document.getElementById('next-btn').addEventListener('click', goToNextSession);
-        // document.getElementById('prev-btn').addEventListener('click', goToPreviousSession);
-        // document.getElementById('reset-btn').addEventListener('click', resetSession);
         document.getElementById('reshuffle-btn').addEventListener('click', function() {
             reshuffle(currentSession);
         });
