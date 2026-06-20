@@ -8,38 +8,60 @@
   <link rel="stylesheet" href="styles.css">
   <script src="index.js" defer></script>
 </head>
-<body class="teal-bg">
-  <div class="center-content">
-    <h1 class="logo-gradient">Just<span class="clubs-gradient">Clubs</span></h1>
-    <form id="clubForm" class="profile-form">
-      <!-- Club selector -->
-      <select id="clubSelect" class="profile-input" required>
-        <option value="" disabled selected>Loading club list…</option>
-      </select>
-
-      <!-- Fixed username -->
-      <input
-        type="email"
-        id="username"
-        value="volunteer@justclubs.ie"
-        readonly
-        class="profile-input"
-      >
-
-      <!-- Password -->
-      <input
-        type="text"
-        id="password"
-        placeholder="Password"
-        required
-        class="profile-input"
-      >
-
-      <div class="button-row">
-        <button type="submit" class="welcome-btn">Enter</button>
-        <button type="button" id="resetBtn" class="welcome-btn">Reset</button>
+<body class="front-screen">
+  <main class="welcome-shell" aria-labelledby="page-title">
+    <section class="brand-panel" aria-label="JustClubs overview">
+      <div class="brand-lockup">
+        <div class="brand-mark" aria-hidden="true"><span>J</span></div>
+        <h1 id="page-title" class="logo-gradient">Just<span class="clubs-gradient">Clubs</span></h1>
       </div>
-    </form>
-  </div>
+
+      <div class="court-graphic" aria-hidden="true">
+        <span class="court-line line-one"></span>
+        <span class="court-line line-two"></span>
+        <span class="court-line line-three"></span>
+      </div>
+    </section>
+
+    <section class="login-panel" aria-label="Club sign in">
+      <form id="clubForm" class="profile-form">
+        <label class="field-group" for="clubSelect">
+          <span>Select your club</span>
+          <select id="clubSelect" class="profile-input" required>
+            <option value="" disabled selected>Loading club list...</option>
+          </select>
+        </label>
+
+        <label class="field-group" for="username">
+          <span>volunteer@justclubs.ie</span>
+          <input
+            type="email"
+            id="username"
+            value="volunteer@justclubs.ie"
+            readonly
+            class="profile-input"
+            autocomplete="username"
+          >
+        </label>
+
+        <label class="field-group" for="password">
+          <span>Password</span>
+          <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            required
+            class="profile-input"
+            autocomplete="current-password"
+          >
+        </label>
+
+        <div class="button-row">
+          <button type="submit" class="welcome-btn primary-action">Enter</button>
+          <button type="button" id="resetBtn" class="welcome-btn secondary-action">Reset</button>
+        </div>
+      </form>
+    </section>
+  </main>
 </body>
 </html>
