@@ -179,10 +179,10 @@
 			}
 
 			.rested-player {
-				padding: 3;
+				padding: 3px;
 				/* Modified: removed padding */
 				white-space: nowrap;
-				overflow: wrap;
+				overflow-wrap: anywhere;
 				text-overflow: ellipsis;
 				max-width: 400px;
 				color: #fff;
@@ -232,7 +232,7 @@
 			}
 
 			.player-name.color-dark-orange {
-				color: dark-orange;
+				color: #cc5500;
 			}
 
 			.player-name.color-dark-green {
@@ -272,6 +272,7 @@
 			.player-separator {
 				color: white;
 				font-size: 2.5em;
+			}
 
 			/* Modal Styles */
 			.modal {
