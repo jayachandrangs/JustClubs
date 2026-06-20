@@ -162,10 +162,10 @@
         }
 
         .rested-player {
-            padding: 3px;
+            padding: 3;
             /* Modified: removed padding */
             white-space: nowrap;
-            overflow-wrap: anywhere;
+            overflow: wrap;
             text-overflow: ellipsis;
             max-width: 400px;
             color: #fff;
@@ -269,6 +269,7 @@
 
         <!-- Settings Icon and Dropdown -->
         <div style="position: relative;">
+            <button class="header-btn" id="setting-icon">&#9881; Settings</button>
             <div id="setting-buttons" class="settings-dropdown">
                 <button class="header-btn" id="pause-btn">Pause</button>
                 <button class="header-btn" id="reset-btn">Reset</button>
@@ -304,7 +305,7 @@
                     })
                     .catch(err => console.error('Failed to acquire wake lock:', err));
             } else {
-                console.warn('Screen wake lock is unavailable in this browser.');
+                console.warn('Wake Lock API not supported.');
             }
 
             // Fullscreen
