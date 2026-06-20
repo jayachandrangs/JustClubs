@@ -505,8 +505,6 @@ async function initialize() {
         // Event listeners for main buttons
         document.getElementById('FreshStart-btn').addEventListener('click', freshstart);
         document.getElementById('next-btn').addEventListener('click', goToNextSession);
-        // document.getElementById('prev-btn').addEventListener('click', goToPreviousSession);
-        // document.getElementById('reset-btn').addEventListener('click', resetSession);
         document.getElementById('reshuffle-btn').addEventListener('click', function() {
             reshuffle(currentSession);
         });
