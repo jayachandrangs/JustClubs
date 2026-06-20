@@ -1,323 +1,354 @@
-			/* DynamicCourts.css */
-			/* General Styles */
-			* {
-				margin: 0;
-				padding: 0;
-				box-sizing: border-box;
-			}
+/* DynamicCourts.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-			body {
-				background-color: #ffffff;
-				/* Light teal white */
-				height: 100vh;
-				display: flex;
-				flex-direction: column;
-				font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
-				color: #333;
-				overflow: hidden;
-			}
+:root {
+    --jc-bg: #f4f8f6;
+    --jc-surface: #ffffff;
+    --jc-ink: #1f2d2b;
+    --jc-muted: #6a7976;
+    --jc-teal: #007d75;
+    --jc-teal-deep: #063f3c;
+    --jc-teal-dark: #052c2c;
+    --jc-green: #4fbf6a;
+    --jc-border: #d9e6e2;
+    --jc-card-border: #149184;
+    --jc-shadow: 0 10px 28px rgba(9, 47, 45, 0.13);
+    --jc-soft-shadow: 0 4px 14px rgba(9, 47, 45, 0.1);
+}
 
-			/* Header Styles */
-			#header {
-				height: 15vh;
-				background-color: #008080;
-				/* Teal Header */
-				display: flex;
-				justify-content: space-around;
-				align-items: center;
-				padding: 0 20px;
-				box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-				/* Darker shadow for contrast */
-				color: white;
-				/* White text for header */
-			}
+body {
+    background:
+        radial-gradient(circle at top left, rgba(79, 191, 106, 0.12), transparent 32rem),
+        var(--jc-bg);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+    color: var(--jc-ink);
+    overflow: hidden;
+}
 
-			#header>div {
-				text-align: center;
-			}
+#header {
+    height: 15vh;
+    background:
+        linear-gradient(135deg, rgba(6, 63, 60, 0.98), rgba(0, 125, 117, 0.96)),
+        var(--jc-teal);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 12px;
+    padding: 0 20px;
+    box-shadow: 0 8px 24px rgba(5, 44, 44, 0.22);
+    color: #ffffff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
 
-			.header-btn {
-				padding: 10px 20px;
-				background-color: #F5F5F5;
-				/* A lighter shade of teal */
-				color: black;
-				border: none;
-				border-radius: 5px;
-				cursor: pointer;
-				margin: 0 5px;
-				transition: background-color 0.3s ease;
-			}
+#header > div {
+    text-align: center;
+}
 
-			.header-btn:hover {
-				background-color: #008080;
-				/* Darker shade on hover */
-			}
+.header-btn {
+    padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.94);
+    color: var(--jc-teal-dark);
+    border: 1px solid rgba(255, 255, 255, 0.44);
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 0 5px;
+    box-shadow: 0 3px 10px rgba(5, 44, 44, 0.14);
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
 
-			/* Content Styles */
-			#content {
-				height: 70vh;
-				padding: 5px;
-				display: flex; /* Changed to flexbox for single row */
-				flex-direction: row; /* Display court boxes in a row */
-				overflow-x: auto; /* Enable horizontal scrolling */
-				overflow-y: hidden; /* Hide vertical scrollbar */
-				white-space: nowrap; /* Prevent court boxes from wrapping */
-			}
+.header-btn:hover {
+    background-color: #ffffff;
+    border-color: rgba(79, 191, 106, 0.72);
+    box-shadow: 0 6px 14px rgba(5, 44, 44, 0.18);
+    transform: translateY(-1px);
+}
 
-			@media screen and (orientation: portrait) {
-				#content {
-					flex-direction: column;
-					height: 70vh;            /* or calc(100vh - header - rested-players) */
-					overflow-y: auto;        /* <-- Enable vertical scroll in portrait */
-					overflow-x: hidden;
-					white-space: normal;     /* Let flex column children wrap naturally */
-					padding-bottom: 22vh;    /* Add enough space for Rested Players bar */
-				}
-			}
-			
-			@media screen and (orientation: landscape) {
-				#content {
-					flex-direction: row;
-					overflow-x: auto;
-					overflow-y: hidden;
-					white-space: nowrap;
-				}
-			}
+.header-btn:focus-visible {
+    outline: 3px solid rgba(79, 191, 106, 0.45);
+    outline-offset: 3px;
+}
 
-			.court-box {
-				background-color: #FFFFFF;
-				/* Light teal for court boxes */
-				padding: 10px;
-				border-radius: 2px;
-				min-width: 250px; /* Ensure each box has a minimum width */
-				max-height: 400px;
-				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-				/* Darker shadow for depth */
-				border: 2px solid #008080;
-				/* Teal border */
-				transition: transform 0.2s ease;
-				color: #000;
-				/* Light text */
-				margin-right: 10px; /* Add spacing between court boxes */
-				display: table; /* Ensure they stay in a row */
-				vertical-align: top; /* Align items to the top */
-				text-align: center;
-			}
+#content {
+    height: 70vh;
+    padding: 12px;
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    scrollbar-color: rgba(0, 125, 117, 0.7) rgba(217, 230, 226, 0.8);
+}
 
-			@media screen and (orientation: portrait) {
-				.court-box {
-					margin-bottom: 10px;
-					width: 100%;
-				}
-			}
-			
-			@media screen and (orientation: landscape) {
-				.court-box {
-					margin-right: 10px;
-				}
-			}
+#content::-webkit-scrollbar,
+#rested-players::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+}
 
-			.court-box:hover {
-				transform: translateY(-5px);
-				/* Increased lift on hover */
-			}
+#content::-webkit-scrollbar-track,
+#rested-players::-webkit-scrollbar-track {
+    background: rgba(217, 230, 226, 0.8);
+    border-radius: 999px;
+}
 
-			.court-box h3 {
-				font-size: 2.5em;
-				margin-bottom: 5px;
-				color: #333333;
-				/* Dark teal for titles */
-			}
+#content::-webkit-scrollbar-thumb,
+#rested-players::-webkit-scrollbar-thumb {
+    background: rgba(0, 125, 117, 0.7);
+    border-radius: 999px;
+}
 
-			.player-name {
-				margin: 4px 0;
-				padding: 1.0px;
-				font-size: 2.3em;
-				text-align: left;
-				border-bottom: 1px solid #BFBFBF;
-				/* Lighter teal for player names */
-				display: block;
-				/* Ensure each player name is on a new line */
-			}
+@media screen and (orientation: portrait) {
+    #content {
+        flex-direction: column;
+        height: 70vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+        white-space: normal;
+        padding-bottom: 22vh;
+    }
+}
 
-			/* Rested Players Styles */
-			#rested-players {
-				background-color: #008080;
-				/* Teal for rested players section */
-				padding: 10px 15px;
-				box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
-				/* Increased shadow */
-				position: fixed;
-				bottom: 0;
-				left: 0;
-				right: 0;
-				min-height: 10vh;
-				max-height: 30vh;
-				overflow-y: auto;
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: flex-start;
-				/* Aligned to start */
-				color: white;
-				/* Light text */
-			}
+@media screen and (orientation: landscape) {
+    #content {
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+    }
+}
 
-			#rested-players h3 {
-				color: #fff;
-				font-size: 1.5em;
-				margin-bottom: 5px;
-				text-align: center;
-			}
+.court-box {
+    background-color: var(--jc-surface);
+    padding: 10px;
+    border-radius: 6px;
+    min-width: 250px;
+    max-height: 400px;
+    box-shadow: var(--jc-shadow);
+    border: 1px solid var(--jc-card-border);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    color: #000000;
+    margin-right: 0;
+    display: table;
+    vertical-align: top;
+    text-align: center;
+}
 
-			.players-container {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 8px;
-				align-items: center;
-				justify-content: center;
-			}
+@media screen and (orientation: portrait) {
+    .court-box {
+        margin-bottom: 10px;
+        width: 100%;
+    }
+}
 
-			.rested-player {
-				padding: 3;
-				/* Modified: removed padding */
-				white-space: nowrap;
-				overflow: wrap;
-				text-overflow: ellipsis;
-				max-width: 400px;
-				color: #fff;
-				/* Light text */
-				font-size: 2.1em;
-				/* Increased font size by 50% (1em * 1.5 = 1.5em) */
-			}
+@media screen and (orientation: landscape) {
+    .court-box {
+        margin-right: 0;
+    }
+}
 
-			/* Timer and Input Styles */
-			#timer {
-				color: white;
-				font-size: 2.2em;
-				font-weight: 600;
-			}
+.court-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 32px rgba(9, 47, 45, 0.18);
+    border-color: var(--jc-green);
+}
 
-			#session-number {
-				color: white;
-				font-size: 1.4em;
-				font-weight: 500;
-			}
+.court-box h3 {
+    font-size: 2.5em;
+    margin-bottom: 5px;
+    color: var(--jc-teal-dark);
+}
 
-			#duration-input {
-				width: 60px;
-				padding: 8px;
-				border-radius: 5px;
-				border: 1px solid #4db6ac;
-				/* Teal border */
-				text-align: center;
-				margin-left: 5px;
-			}
+.player-name {
+    margin: 4px 0;
+    padding: 1.0px;
+    font-size: 2.3em;
+    text-align: left;
+    border-bottom: 1px solid #d2ddd9;
+    display: block;
+}
 
-			/* Styles for player name colors */
-			.player-name.color-dark-blue {
-				color: darkblue;
-			}
+#rested-players {
+    background:
+        linear-gradient(135deg, rgba(6, 63, 60, 0.98), rgba(0, 125, 117, 0.96)),
+        var(--jc-teal);
+    padding: 10px 15px;
+    box-shadow: 0 -8px 24px rgba(5, 44, 44, 0.22);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    min-height: 10vh;
+    max-height: 30vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    color: #ffffff;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
 
-			.player-name.color-black {
-				color: black;
-			}
+#rested-players h3 {
+    color: #ffffff;
+    font-size: 1.5em;
+    margin-bottom: 5px;
+    text-align: center;
+}
 
-			.player-name.color-dark-red {
-				color: darkred;
-			}
+.players-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+}
 
-			.player-name.color-orange {
-				color: orange;
-			}
+.rested-player {
+    padding: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 400px;
+    color: #ffffff;
+    font-size: 2.1em;
+}
 
-			.player-name.color-dark-orange {
-				color: dark-orange;
-			}
+#timer {
+    color: #ffffff;
+    font-size: 2.2em;
+    font-weight: 600;
+}
 
-			.player-name.color-dark-green {
-				color: darkgreen;
-			}
+#session-number {
+    color: #ffffff;
+    font-size: 1.4em;
+    font-weight: 500;
+}
 
-			/* Settings Dropdown Styles */
-			.settings-dropdown {
-				display: none;
-				position: absolute;
-				background-color: #008080;
-				/* Light background for the dropdown */
-				min-width: 160px;
-				box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-				z-index: 1;
-				right: 0;
-				/* Position dropdown to the right */
-				flex-direction: column;
-				/* Stack buttons vertically */
-				padding: 0.5em;
-				border-radius: 0.3125em;
-			}
+#duration-input {
+    width: 60px;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    text-align: center;
+    margin-left: 5px;
+    background: rgba(255, 255, 255, 0.96);
+    color: var(--jc-ink);
+    box-shadow: inset 0 1px 2px rgba(9, 47, 45, 0.08);
+}
 
-			.settings-dropdown button {
-				display: block;
-				/* Make buttons fill the width of the dropdown */
-				width: 100%;
-				text-align: left;
-				margin: 0.25em 0;
-			}
+#duration-input:focus {
+    outline: none;
+    border-color: var(--jc-green);
+    box-shadow: 0 0 0 3px rgba(79, 191, 106, 0.24);
+}
 
-			/* Show the dropdown when the settings container has class of show */
-			.settings-dropdown.show {
-				display: flex;
-			}
-			
-			.player-separator {
-				color: white;
-				font-size: 2.5em;
+.player-name.color-dark-blue {
+    color: darkblue;
+}
 
-			/* Modal Styles */
-			.modal {
-				display: none;
-				position: fixed;
-				top: 0;
-				left: 0;
-				width: 100%;
-				height: 100%;
-				background-color: rgba(0, 0, 0, 0.5);
-				z-index: 2;
-				/* Ensure it's on top */
-			}
+.player-name.color-black {
+    color: black;
+}
 
-			.modal-content {
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				transform: translate(-50%, -50%);
-				background-color: white;
-				padding: 20px;
-				border-radius: 5px;
-				width: 80%;
-				/* Adjust width as needed */
-				max-height: 80%;
-				/* Adjust height as needed */
-				overflow: auto;
-				/* Enable scrolling if content is too long */
-			}
+.player-name.color-dark-red {
+    color: darkred;
+}
 
-			.modal.show {
-				display: block;
-			}
+.player-name.color-orange {
+    color: orange;
+}
 
-			.player-separator {
-				color: white;
-				font-size: 2.5em;
-			}
+.player-name.color-dark-orange {
+    color: #cc6f00;
+}
 
-			#courts-icon {
-				background-color: #4CAF50;
-				padding: 12px;
-				border-radius: 4px;
-				margin-left: 10px;
-			} 
-			#playerModal {
-				display: none;
-				opacity: 0; /* Ensure it's fully transparent as well */
-			}
+.player-name.color-dark-green {
+    color: darkgreen;
+}
+
+.settings-dropdown {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    min-width: 160px;
+    box-shadow: var(--jc-soft-shadow);
+    z-index: 1;
+    right: 0;
+    flex-direction: column;
+    padding: 0.5em;
+    border: 1px solid var(--jc-border);
+    border-radius: 6px;
+}
+
+.settings-dropdown button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    margin: 0.25em 0;
+    box-shadow: none;
+}
+
+.settings-dropdown.show {
+    display: flex;
+}
+
+.player-separator {
+    color: #ffffff;
+    font-size: 2.5em;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(5, 44, 44, 0.5);
+    z-index: 2;
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 6px;
+    width: 80%;
+    max-height: 80%;
+    overflow: auto;
+    box-shadow: var(--jc-shadow);
+}
+
+.modal.show {
+    display: block;
+}
+
+#courts-icon {
+    background-color: var(--jc-green);
+    color: #ffffff;
+    padding: 12px;
+    border-radius: 6px;
+    margin-left: 10px;
+    border-color: rgba(255, 255, 255, 0.28);
+}
+
+#courts-icon:hover {
+    background-color: #45ad60;
+}
+
+#playerModal {
+    display: none;
+    opacity: 0;
+}
