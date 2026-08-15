@@ -328,6 +328,7 @@ function processCSVData(csvData) {
                 Team: columns[4] || '',
                 FirstName: columns[5] || '',
                 LastName: columns[6] || '',
+                TeamName: (columns[7] || '').toLowerCase(),
                 PlayingToday: 0,
                 alloted: 0,
                 rested: 0,
